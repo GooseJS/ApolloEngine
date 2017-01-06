@@ -4,10 +4,10 @@ import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.backend.lwjgl.opengl.VertexArray;
 import com.goosejs.apollo.backend.lwjgl.opengl.VertexBufferObject;
 
-public class GChatUtils
+public class ApolloUtils
 {
 
-    private GChatUtils() {}
+    private ApolloUtils() {}
 
     public static void cleanupEverything()
     {

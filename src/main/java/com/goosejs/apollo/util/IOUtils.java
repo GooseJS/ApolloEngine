@@ -59,7 +59,7 @@ public class IOUtils
                 if (bytes == -1)
                     break;
                 if (buffer.remaining() == 0)
-                    buffer = GChatBufferUtils.resizeBuffer(buffer, buffer.capacity() * 2);
+                    buffer = ApolloBufferUtils.resizeBuffer(buffer, buffer.capacity() * 2);
             }
         }
 
@@ -123,5 +123,4 @@ public class IOUtils
 
         return stringBuilder.toString();
     }
-
 }

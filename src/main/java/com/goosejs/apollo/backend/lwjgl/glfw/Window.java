@@ -1,8 +1,12 @@
 package com.goosejs.apollo.backend.lwjgl.glfw;
 
 import com.goosejs.apollo.backend.lwjgl.opengl.GLStateManager;
+import com.goosejs.apollo.util.ApolloBufferUtils;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -28,6 +32,7 @@ public class Window
     private int width;
     private int height;
     private String title;
+    private boolean fullscreen;
     private boolean resizable;
 
     /** The windows callbacks */
@@ -44,13 +49,16 @@ public class Window
      * @param width The width of the window
      * @param height The height of the window
      * @param title The title of the window
+     * @param fullscreen True if fullscreen, false if windowed
+     * @param resizable  True if the window should be resizable, false otherwise
      */
-    public Window(int width, int height, String title, boolean resizable)
+    public Window(int width, int height, String title, boolean fullscreen, boolean resizable)
     {
         this.width = width;
         this.height = height;
         this.title = title;
-        this.resizable = resizable;
+        this.fullscreen = fullscreen;
+        this.resizable = !this.fullscreen && resizable;
     }
 
     /**
@@ -68,7 +76,7 @@ public class Window
     {
         if (!init)
         {
-            if (glfwInit() != GLFW_TRUE)
+            if (!glfwInit())
                 throw new RuntimeException("Cannot initialize GLFW!");
 
             glfwDefaultWindowHints();
@@ -80,7 +88,12 @@ public class Window
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, openGLForwardCompatible ? GLFW_TRUE : GLFW_FALSE);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-            windowPointer = glfwCreateWindow(width, height, title, NULL, NULL);
+            long primaryMonitor = glfwGetPrimaryMonitor();
+            GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
+            if (width == -1) width = vidMode.width();
+            if (height == -1) height = vidMode.height();
+
+            windowPointer = glfwCreateWindow(width, height, title, this.fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
             if (windowPointer == NULL)
                 throw new RuntimeException("Cannot create GLFW window!");
 
@@ -105,7 +118,7 @@ public class Window
      */
     public boolean shouldClose()
     {
-        return init && glfwWindowShouldClose(windowPointer) == GLFW_TRUE;
+        return init && glfwWindowShouldClose(windowPointer);
     }
 
     /**
@@ -231,7 +244,7 @@ public class Window
     }
 
     /**
-     * @see org.lwjgl.glfw.GLFW#glfwSetInputMode(long, int, int);
+     * @see org.lwjgl.glfw.GLFW#glfwSetInputMode(long, int, int)
      */
     public void setInputMode(int mode, int value)
     {
@@ -267,6 +280,16 @@ public class Window
         return height;
     }
 
+    public void showWindow()
+    {
+        glfwShowWindow(windowPointer);
+    }
+
+    public void hideWindow()
+    {
+        glfwHideWindow(windowPointer);
+    }
+
     public void setTitle(String title)
     {
         this.title = title;
@@ -276,6 +299,21 @@ public class Window
     public String getTitle()
     {
         return title;
+    }
+
+    public void setClipboard(Object object)
+    {
+        glfwSetClipboardString(windowPointer, object.toString());
+    }
+
+    public String getClipboardString()
+    {
+        return glfwGetClipboardString(windowPointer);
+    }
+
+    public long getWindowPointer()
+    {
+        return windowPointer;
     }
 
     public ExtendableCharacterCallback getCharacterCallback()

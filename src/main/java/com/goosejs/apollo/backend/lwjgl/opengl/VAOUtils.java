@@ -1,6 +1,6 @@
 package com.goosejs.apollo.backend.lwjgl.opengl;
 
-import com.goosejs.apollo.util.GChatBufferUtils;
+import com.goosejs.apollo.util.ApolloBufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 
@@ -95,7 +95,7 @@ public class VAOUtils
         if (vaoBinding) VertexArray.bindVAO(vaoID);
         if (vboBinding) vboID = VertexBufferObject.createVBO();
         VertexBufferObject.bindVBO(GL15.GL_ARRAY_BUFFER, vboID);
-        VertexBufferObject.uploadData(GL15.GL_ARRAY_BUFFER, GChatBufferUtils.createFloatBuffer(data), GL15.GL_DYNAMIC_DRAW); // TODO: Dynamic is temp
+        VertexBufferObject.uploadData(GL15.GL_ARRAY_BUFFER, ApolloBufferUtils.createFloatBuffer(data), GL15.GL_DYNAMIC_DRAW); // TODO: Dynamic is temp
         VertexArray.vertexAttribPointer(index, coordinateSize, GL11.GL_FLOAT, false, stride, 0);
         VertexBufferObject.unbindVBO(GL15.GL_ARRAY_BUFFER);
         if (vaoBinding) VertexArray.unbindVAO();

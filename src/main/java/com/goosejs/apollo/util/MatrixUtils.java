@@ -26,25 +26,25 @@ public class MatrixUtils
     {
         Matrix4f matrix = new Matrix4f();
 
-        matrix.m00 = 2.0f / (right - left);
-        matrix.m01 = 0.0f;
-        matrix.m02 = 0.0f;
-        matrix.m03 = 0.0f;
+        matrix.m00(2.0f / (right - left));
+        matrix.m01(0.0f);
+        matrix.m02(0.0f);
+        matrix.m03(0.0f);
 
-        matrix.m10 = 0.0f;
-        matrix.m11 = 2.0f / (top - bottom);
-        matrix.m12 = 0.0f;
-        matrix.m13 = 0.0f;
+        matrix.m10(0.0f);
+        matrix.m11(2.0f / (top - bottom));
+        matrix.m12(0.0f);
+        matrix.m13(0.0f);
 
-        matrix.m20 = 0.0f;
-        matrix.m21 = 0.0f;
-        matrix.m22 = -2.0f / (far - near);
-        matrix.m23 = 0.0f;
+        matrix.m20(0.0f);
+        matrix.m21(0.0f);
+        matrix.m22(-2.0f / (far - near));
+        matrix.m23(0.0f);
 
-        matrix.m30 = -(right + left) / (right - left);
-        matrix.m31 = -(top + bottom) / (top - bottom);
-        matrix.m32 = -(far + near) / (far - near);
-        matrix.m33 = 1.0f;
+        matrix.m30(-(right + left) / (right - left));
+        matrix.m31(-(top + bottom) / (top - bottom));
+        matrix.m32(-(far + near) / (far - near));
+        matrix.m33(1.0f);
 
         return matrix;
     }

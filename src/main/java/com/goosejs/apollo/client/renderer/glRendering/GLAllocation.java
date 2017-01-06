@@ -19,12 +19,7 @@ public class GLAllocation
         {
             int error = GL11.glGetError();
             String errorString = "No error code reported";
-
-            if (error != 0)
-            {
-                errorString = GLUtil.getErrorString(error);
-            }
-
+            
             throw new IllegalStateException("glGenLists returned an ID of 0 for a count of " + range + ", GL error (" + error + "): " + errorString);
         }
         else

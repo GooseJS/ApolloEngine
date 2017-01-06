@@ -8,10 +8,10 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GChatBufferUtils
+public class ApolloBufferUtils
 {
 
-    private GChatBufferUtils() {}
+    private ApolloBufferUtils() {}
 
     public static ByteBuffer resizeBuffer(ByteBuffer buffer, int newCapacity)
     {

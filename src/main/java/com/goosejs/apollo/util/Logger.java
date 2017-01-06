@@ -22,6 +22,11 @@ public class Logger
         debug = value;
     }
 
+    public static void info(String s)
+    {
+        LOGGER.info(s);
+    }
+
     public static void info(Object s)
     {
         LOGGER.info(s);
@@ -107,6 +112,31 @@ public class Logger
         {
             LOGGER.info(m, "[DEBUG] " + s, o);
         }
+    }
+
+    public static void printStackTrace()
+    {
+        printStackTraceInfo();
+    }
+
+    public static void printStackTraceInfo()
+    {
+        LOGGER.info(new Throwable("Stack Trace"));
+    }
+
+    public static void printStackTraceWarning()
+    {
+        LOGGER.warn(new Throwable("Stack Trace"));
+    }
+
+    public static void printStackTraceError()
+    {
+        LOGGER.error(new Throwable("Stack Trace"));
+    }
+
+    public static void printStackTraceFatal()
+    {
+        LOGGER.fatal(new Throwable("Stack Trace"));
     }
 
 }

@@ -155,14 +155,14 @@ public class TrueTypeFontRenderer
     private void loadFonts(String fontFile)
     {
         fontTextureID = Texture.createTexture();
-        chardata = STBTTPackedchar.mallocBuffer(128);
+        chardata = STBTTPackedchar.malloc(128);
 
         STBTTPackContext pc = STBTTPackContext.malloc();
 
         ByteBuffer ttf = IOUtils.fileToByteBuffer(fontFile, 160 * 1024);
         ByteBuffer bitmap = BufferUtils.createByteBuffer(512 * 512);
 
-        STBTruetype.stbtt_PackBegin(pc, bitmap, 512, 512, 0, 1, null);
+        STBTruetype.stbtt_PackBegin(pc, bitmap, 512, 512, 0, 1);
 
         chardata.limit(127);
         chardata.position(32);
@@ -245,7 +245,7 @@ public class TrueTypeFontRenderer
 
             for (int i = 0; i < text.length(); i++)
             {
-                STBTruetype.stbtt_GetPackedQuad(chardata, 512, 512, text.charAt(i), xb, yb, quad, GLFW.GLFW_FALSE);
+                STBTruetype.stbtt_GetPackedQuad(chardata, 512, 512, text.charAt(i), xb, yb, quad, false);
                 addDataToArrayList(efficientDrawVertices, efficientDrawTexCoords,
                         quad.x0(), quad.y0(), quad.x1(), quad.y1(),
                         quad.s0(), quad.t0(), quad.s1(), quad.t1());
@@ -294,7 +294,7 @@ public class TrueTypeFontRenderer
 
         for (int i = 0; i < text.length(); i++)
         {
-            STBTruetype.stbtt_GetPackedQuad(chardata, 512, 512, text.charAt(i), xb, yb, quad, GLFW.GLFW_FALSE);
+            STBTruetype.stbtt_GetPackedQuad(chardata, 512, 512, text.charAt(i), xb, yb, quad, false);
             if (i == text.length() - 1)
                 currentWidth = quad.x1();
             xb.put(0, xb.get(0) + additionFontSpacing);
