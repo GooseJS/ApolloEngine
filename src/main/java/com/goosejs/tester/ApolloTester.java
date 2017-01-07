@@ -88,7 +88,7 @@ public class ApolloTester extends LoopingApplicationBase
     public boolean postInit()
     {
         Logger.info("Post-Init");
-        AudioMaster.init();
+        //AudioMaster.init();
         return true;
     }
 }
