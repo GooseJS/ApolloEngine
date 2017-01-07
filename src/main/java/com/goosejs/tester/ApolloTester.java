@@ -3,7 +3,6 @@ package com.goosejs.tester;
 
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
-import com.goosejs.apollo.audio.AudioMaster;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.util.Logger;
 import org.lwjgl.opengl.GL11;
