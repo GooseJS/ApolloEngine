@@ -1,6 +1,7 @@
 package com.goosejs.apollo.shader;
 
 import com.goosejs.apollo.util.IOUtils;
+import com.goosejs.apollo.util.Logger;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -48,8 +49,13 @@ public abstract class ShaderProgram
         GL20.glAttachShader(id, vertexShaderID);
         GL20.glAttachShader(id, fragmentShaderID);
         GL20.glLinkProgram(id);
+        GL20.glValidateProgram(id);
         if (GL20.glGetShaderi(id, GL20.GL_LINK_STATUS) == GL11.GL_FALSE)
+        {
+            Logger.error(GL20.glGetProgrami(id, GL20.GL_INFO_LOG_LENGTH));
+            Logger.error(GL20.glGetProgramInfoLog(id));
             throw new RuntimeException("Could not link program!"); // TODO: Handle this better
+        }
 
         GL20.glDetachShader(id, vertexShaderID);
         GL20.glDetachShader(id, fragmentShaderID);
@@ -63,7 +69,7 @@ public abstract class ShaderProgram
         GL20.glShaderSource(shaderID, shaderSource);
         GL20.glCompileShader(shaderID);
         if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) != GL11.GL_TRUE)
-            throw new RuntimeException("Could not compile com.goosejs.apollo.shader!\nSource: " + shaderSource +"\nReason: " + GL20.glGetShaderInfoLog(shaderID, 500)); // TODO: Handle this better
+            throw new RuntimeException("Could not compile shader!\nSource: " + shaderSource +"\nReason: " + GL20.glGetShaderInfoLog(shaderID, 500)); // TODO: Handle this better
         return shaderID;
     }
 

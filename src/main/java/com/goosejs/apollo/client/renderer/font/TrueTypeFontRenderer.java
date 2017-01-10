@@ -59,6 +59,8 @@ public class TrueTypeFontRenderer
     private ArrayList<Float> efficientDrawVertices;
     private ArrayList<Float> efficientDrawTexCoords;
 
+    private boolean vaoBinding = true;
+
     public TrueTypeFontRenderer(String fontFile)
     {
         this(fontFile, 20f);
@@ -179,11 +181,13 @@ public class TrueTypeFontRenderer
         Texture.setTextureParameter(GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         Texture.generateMipMap();
 
-        vaoID = VertexArray.createVAO();
+        if (vaoBinding)
+            vaoID = VertexArray.createVAO();
         VertexArray.bindVAO(vaoID);
         vertexID = VertexBufferObject.createVBO();
         texCoordID = VertexBufferObject.createVBO();
-        VertexArray.unbindVAO();
+        if (vaoBinding)
+            VertexArray.unbindVAO();
     }
 
     public void drawString(float x, float y, String text)
@@ -262,7 +266,8 @@ public class TrueTypeFontRenderer
         {
             drawing = false;
 
-            VertexArray.bindVAO(vaoID);
+            if (vaoBinding)
+                VertexArray.bindVAO(vaoID);
             VAOUtils.storeDataInAttributeList(-1, false, vertexID, false, 0, 2, 0, efficientDrawVertices);
             VAOUtils.storeDataInAttributeList(-1, false, texCoordID, false, 1, 2, 0, efficientDrawTexCoords);
 
@@ -275,7 +280,8 @@ public class TrueTypeFontRenderer
             VertexArray.disableAttribArray(0, 1);
             Texture.unbindTextureStatic();
             fontShader.stopUsingProgram();
-            VertexArray.unbindVAO();
+            if (vaoBinding)
+                VertexArray.unbindVAO();
 
             GLStateManager.popState();
         }

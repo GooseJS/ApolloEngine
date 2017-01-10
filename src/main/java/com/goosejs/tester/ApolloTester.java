@@ -4,6 +4,10 @@ package com.goosejs.tester;
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
+import com.goosejs.apollo.backend.lwjgl.opengl.*;
+import com.goosejs.apollo.client.renderer.glRendering.VertexBuffer;
+import com.goosejs.apollo.client.renderer.glRendering.VertexBufferUploader;
+import com.goosejs.apollo.client.renderer.texturedRendering.TexturedShader;
 import com.goosejs.apollo.util.Logger;
 import org.lwjgl.opengl.GL11;
 
@@ -58,6 +62,16 @@ public class ApolloTester extends LoopingApplicationBase
         if (b > 1) bIncrease = false;
         if (b < 0) bIncrease = true;
 
+        VertexArray.bindVAO(vaoID);
+        texturedShader.useProgram();
+        texture.bindTexture();
+        VertexArray.enableAttribArray(0, 1);
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
+        VertexArray.disableAttribArray(0, 1);
+        texture.unbindTexture();
+        texturedShader.stopUsingProgram();
+        VertexArray.unbindVAO();
+
         window.swapBuffers();
         window.pollEvents();
 
@@ -83,9 +97,38 @@ public class ApolloTester extends LoopingApplicationBase
         return true;
     }
 
+    Texture texture;
+    int vboID;
+    int texCoordID;
+    int vaoID;
+    TexturedShader texturedShader;
+
     @Override
     public boolean postInit()
     {
+        vaoID = VertexArray.createVAO();
+        VertexArray.bindVAO(vaoID);
+        texture = new Texture("texture.png");
+        texturedShader = new TexturedShader();
+        vboID = VertexBufferObject.createVBO();
+        texCoordID = VertexBufferObject.createVBO();
+        vboID = VAOUtils.storeDataInAttributeList(-1, false, vboID, false, 0, 2, 0, new float[] {
+                -0.5f, 0.5f,
+                0.5f, 0.5f,
+                -0.5f, -0.5f,
+
+                -0.5f, -0.5f,
+                0.5f, -0.5f,
+                0.5f, 0.5f
+        });
+        VAOUtils.storeDataInAttributeList(-1, false, texCoordID, false, 1, 2, 0, new float [] {
+                0, 0,
+                1, 0,
+                1, 1,
+                0, 1
+        });
+        VertexArray.unbindVAO();
+
         Logger.info("Post-Init");
         //AudioMaster.init();
         return true;

@@ -64,18 +64,18 @@ public class VAOUtils
      * @param vaoID the VAO to store the data in
      * @param vaoBinding true if you would like to bind the index, false if you don't
      * @param vboID the VBO ID to store the data in
-     * @param vboBinding true if you want to create a VBO, false is you would like to provide your own
+     * @param createVBO true if you want to create a VBO, false is you would like to provide your own
      * @param index the index to store the data
      * @param coordinateSize the size of the data (ex. Vec3 would be 3)
      * @param stride The stride of the data
      * @param data the data itself
      * @return the VBO that the data was stored in
      */
-    public static int storeDataInAttributeList(int vaoID, boolean vaoBinding, int vboID, boolean vboBinding, int index, int coordinateSize, int stride, float[] data)
+    public static int storeDataInAttributeList(int vaoID, boolean vaoBinding, int vboID, boolean createVBO, int index, int coordinateSize, int stride, float[] data)
     {
         ArrayList<Float> realData = new ArrayList<>();
         for (float dataPoint : data) realData.add(dataPoint);
-        return storeDataInAttributeList(vaoID, vaoBinding, vboID, vboBinding, index, coordinateSize, stride, realData);
+        return storeDataInAttributeList(vaoID, vaoBinding, vboID, createVBO, index, coordinateSize, stride, realData);
     }
 
     /**
@@ -83,17 +83,17 @@ public class VAOUtils
      * @param vaoID the VAO to store the data in
      * @param vaoBinding true if you would like to bind the index, false if you don't
      * @param vboID the VBO ID to store the data in
-     * @param vboBinding true if you want to create a VBO, false is you would like to provide your own
+     * @param createVBO true if you want to create a VBO, false is you would like to provide your own
      * @param index the index to store the data
      * @param coordinateSize the size of the data (ex. Vec3 would be 3)
      * @param stride The stride of the data
      * @param data the data itself
      * @return the VBO that the data was stored in
      */
-    public static int storeDataInAttributeList(int vaoID, boolean vaoBinding, int vboID, boolean vboBinding, int index, int coordinateSize, int stride, List<Float> data)
+    public static int storeDataInAttributeList(int vaoID, boolean vaoBinding, int vboID, boolean createVBO, int index, int coordinateSize, int stride, List<Float> data)
     {
         if (vaoBinding) VertexArray.bindVAO(vaoID);
-        if (vboBinding) vboID = VertexBufferObject.createVBO();
+        if (createVBO) vboID = VertexBufferObject.createVBO();
         VertexBufferObject.bindVBO(GL15.GL_ARRAY_BUFFER, vboID);
         VertexBufferObject.uploadData(GL15.GL_ARRAY_BUFFER, ApolloBufferUtils.createFloatBuffer(data), GL15.GL_DYNAMIC_DRAW); // TODO: Dynamic is temp
         VertexArray.vertexAttribPointer(index, coordinateSize, GL11.GL_FLOAT, false, stride, 0);

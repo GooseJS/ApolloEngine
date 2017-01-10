@@ -8,8 +8,8 @@ import org.joml.Vector3f;
 public class FontShader extends ShaderProgram
 {
 
-	private static final String VERTEX_FILE = "shaders/fontShaders/com.goosejs.apollo.shader.vert";
-	private static final String FRAGMENT_FILE = "shaders/fontShaders/com.goosejs.apollo.shader.frag";
+	private static final String VERTEX_FILE = "shaders/fontShaders/shader.vert";
+	private static final String FRAGMENT_FILE = "shaders/fontShaders/shader.frag";
 	
 	public FontShader()
 	{
