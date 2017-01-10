@@ -82,6 +82,7 @@ public class Window
             glfwDefaultWindowHints();
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             glfwWindowHint(GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE);
+            glfwWindowHint(GLFW_SAMPLES, 8);
 
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, openGLMajorVersion);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, openGLMinorVersion);
@@ -97,8 +98,7 @@ public class Window
             if (windowPointer == NULL)
                 throw new RuntimeException("Cannot create GLFW window!");
 
-            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-            glfwSetWindowPos(windowPointer, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2);
+            glfwSetWindowPos(windowPointer, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
 
             glfwMakeContextCurrent(windowPointer);
 

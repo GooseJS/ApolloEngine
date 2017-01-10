@@ -17,7 +17,7 @@ import java.util.HashMap;
 public abstract class ShaderProgram
 {
 
-    private int id; // TODO: Lock com.goosejs.apollo.shader? Throw exception? Handle this if it is equal to -1
+    private int id; // TODO: lock shader? Throw exception? Handle this if it is equal to -1
     private HashMap<String, Integer> uniformLocations;
 
     private FloatBuffer matrixBuffer;

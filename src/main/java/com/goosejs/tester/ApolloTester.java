@@ -5,8 +5,6 @@ import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.*;
-import com.goosejs.apollo.client.renderer.glRendering.VertexBuffer;
-import com.goosejs.apollo.client.renderer.glRendering.VertexBufferUploader;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedShader;
 import com.goosejs.apollo.util.Logger;
 import org.lwjgl.opengl.GL11;
@@ -86,6 +84,7 @@ public class ApolloTester extends LoopingApplicationBase
 
         window = new Window(-1, -1, "gEngine", true, false);
         window.createWindow();
+        GLStateManager.initializeOpenGL();
 
         return true;
     }
