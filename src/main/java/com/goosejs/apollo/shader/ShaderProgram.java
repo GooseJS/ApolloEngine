@@ -42,17 +42,14 @@ public abstract class ShaderProgram
 
     private void createProgram(String vertexShaderSource, String fragmentShaderSource)
     {
-        int vertexShaderID = loadShader(vertexShaderSource, GL20.GL_VERTEX_SHADER);
-        int fragmentShaderID = loadShader(fragmentShaderSource, GL20.GL_FRAGMENT_SHADER);
         id = GL20.glCreateProgram();
+        int vertexShaderID = loadShader(vertexShaderSource, GL20.GL_VERTEX_SHADER, id);
+        int fragmentShaderID = loadShader(fragmentShaderSource, GL20.GL_FRAGMENT_SHADER, id);
         bindAttributes();
-        GL20.glAttachShader(id, vertexShaderID);
-        GL20.glAttachShader(id, fragmentShaderID);
         GL20.glLinkProgram(id);
-        GL20.glValidateProgram(id);
-        if (GL20.glGetShaderi(id, GL20.GL_LINK_STATUS) == GL11.GL_FALSE)
+
+        if (GL20.glGetShaderi(id, GL20.GL_LINK_STATUS) == GL11.GL_TRUE) // TODO: What the fuck, why is this true?
         {
-            Logger.error(GL20.glGetProgrami(id, GL20.GL_INFO_LOG_LENGTH));
             Logger.error(GL20.glGetProgramInfoLog(id));
             throw new RuntimeException("Could not link program!"); // TODO: Handle this better
         }
@@ -63,13 +60,14 @@ public abstract class ShaderProgram
         GL20.glDeleteShader(fragmentShaderID);
     }
 
-    private int loadShader(String shaderSource, int type)
+    private int loadShader(String shaderSource, int type, int programID)
     {
         int shaderID = GL20.glCreateShader(type);
         GL20.glShaderSource(shaderID, shaderSource);
         GL20.glCompileShader(shaderID);
         if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) != GL11.GL_TRUE)
             throw new RuntimeException("Could not compile shader!\nSource: " + shaderSource +"\nReason: " + GL20.glGetShaderInfoLog(shaderID, 500)); // TODO: Handle this better
+        GL20.glAttachShader(programID, shaderID);
         return shaderID;
     }
 

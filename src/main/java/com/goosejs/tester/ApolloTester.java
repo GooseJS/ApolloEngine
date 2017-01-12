@@ -5,6 +5,7 @@ import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.*;
+import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedShader;
 import com.goosejs.apollo.util.Logger;
 import org.lwjgl.opengl.GL11;
@@ -70,6 +71,8 @@ public class ApolloTester extends LoopingApplicationBase
         texturedShader.stopUsingProgram();
         VertexArray.unbindVAO();
 
+        fontRenderer.drawString(1, 1, "Looooo testing");
+
         window.swapBuffers();
         window.pollEvents();
 
@@ -82,9 +85,8 @@ public class ApolloTester extends LoopingApplicationBase
     {
         Logger.info("Pre-Init");
 
-        window = new Window(-1, -1, "gEngine", true, false);
+        window = new Window(-2, -2, "gEngine", true, false);
         window.createWindow();
-        GLStateManager.initializeOpenGL();
 
         return true;
     }
@@ -101,13 +103,16 @@ public class ApolloTester extends LoopingApplicationBase
     int texCoordID;
     int vaoID;
     TexturedShader texturedShader;
+    TrueTypeFontRenderer fontRenderer;
 
     @Override
     public boolean postInit()
     {
+        fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf");
+        fontRenderer.resetTranslation();
         vaoID = VertexArray.createVAO();
         VertexArray.bindVAO(vaoID);
-        texture = new Texture("texture.png");
+        texture = new Texture("texture.jpg");
         texturedShader = new TexturedShader();
         vboID = VertexBufferObject.createVBO();
         texCoordID = VertexBufferObject.createVBO();
@@ -117,13 +122,15 @@ public class ApolloTester extends LoopingApplicationBase
                 -0.5f, -0.5f,
 
                 -0.5f, -0.5f,
-                0.5f, -0.5f,
-                0.5f, 0.5f
+                0.5f, 0.5f,
+                0.5f, -0.5f
         });
         VAOUtils.storeDataInAttributeList(-1, false, texCoordID, false, 1, 2, 0, new float [] {
-                0, 0,
                 1, 0,
+                0, 0,
                 1, 1,
+                1, 1,
+                0, 0,
                 0, 1
         });
         VertexArray.unbindVAO();

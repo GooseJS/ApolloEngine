@@ -91,14 +91,27 @@ public class Window
 
             long primaryMonitor = glfwGetPrimaryMonitor();
             GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
-            if (width == -1) width = vidMode.width();
-            if (height == -1) height = vidMode.height();
+            boolean borderless = (width == -2 && height == -2);
+            if (width == -1 || width == -2) width = vidMode.width();
+            if (height == -1 || height == -2) height = vidMode.height();
+
+            if (borderless)
+            {
+                glfwWindowHint(GLFW_RED_BITS, vidMode.redBits());
+                glfwWindowHint(GLFW_GREEN_BITS, vidMode.greenBits());
+                glfwWindowHint(GLFW_BLUE_BITS, vidMode.blueBits());
+                glfwWindowHint(GLFW_REFRESH_RATE, vidMode.refreshRate());
+                glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE);
+            }
 
             windowPointer = glfwCreateWindow(width, height, title, this.fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+
             if (windowPointer == NULL)
                 throw new RuntimeException("Cannot create GLFW window!");
 
             glfwSetWindowPos(windowPointer, (vidMode.width() - width) / 2, (vidMode.height() - height) / 2);
+
+            glfwShowWindow(windowPointer);
 
             glfwMakeContextCurrent(windowPointer);
 
@@ -106,8 +119,6 @@ public class Window
 
             GLStateManager.initializeOpenGL();
             GL11.glViewport(0, 0, width, height);
-
-            glfwShowWindow(windowPointer);
 
             init = true;
         }
