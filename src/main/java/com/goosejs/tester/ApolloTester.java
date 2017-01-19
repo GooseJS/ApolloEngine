@@ -1,6 +1,6 @@
 package com.goosejs.tester;
 
-
+//troll
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
@@ -108,11 +108,11 @@ public class ApolloTester extends LoopingApplicationBase
     @Override
     public boolean postInit()
     {
-        fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf");
+        fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf", 25f, 0f, 0, 0, window.getWidth(), window.getHeight());
         fontRenderer.resetTranslation();
         vaoID = VertexArray.createVAO();
         VertexArray.bindVAO(vaoID);
-        texture = new Texture("texture.jpg");
+        texture = new Texture("texture.png");
         texturedShader = new TexturedShader();
         vboID = VertexBufferObject.createVBO();
         texCoordID = VertexBufferObject.createVBO();
