@@ -1,6 +1,5 @@
 package com.goosejs.tester;
 
-//troll
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
