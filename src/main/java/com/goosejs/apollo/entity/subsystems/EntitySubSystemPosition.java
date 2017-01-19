@@ -1,6 +1,6 @@
 package com.goosejs.apollo.entity.subsystems;
 
-public class EntitySubSystemPosition extends EntitySubSystem
+public class EntitySubSystemPosition extends EntitySubSystem<EntitySubSystemPosition>
 {
     private float x;
     private float y;
@@ -48,5 +48,11 @@ public class EntitySubSystemPosition extends EntitySubSystem
     public void doUpdate()
     {
         // NO OP
+    }
+
+    @Override
+    public EntitySubSystemPosition instantiate()
+    {
+        return new EntitySubSystemPosition(x, y, z);
     }
 }
