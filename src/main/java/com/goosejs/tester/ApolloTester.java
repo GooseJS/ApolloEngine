@@ -73,6 +73,7 @@ public class ApolloTester extends LoopingApplicationBase
 
         fontRenderer.drawString(1, 1, "Looooo testing");
 
+        // TODO: Eventually this stuff should be handled by the ApplicationLoop
         window.swapBuffers();
         window.pollEvents();
 
@@ -85,7 +86,7 @@ public class ApolloTester extends LoopingApplicationBase
     {
         Logger.info("Pre-Init");
 
-        window = new Window(-2, -2, "gEngine", true, false);
+        window = new Window(800, 600, "gEngine", false, false);
         window.createWindow();
 
         return true;
