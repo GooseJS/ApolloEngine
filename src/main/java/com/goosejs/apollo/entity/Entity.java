@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class Entity
 {
 
+    // TODO: Further documentation of this class
+
     private final ArrayList<EntitySubSystem> subSystems;
 
     protected Entity()
@@ -40,5 +42,20 @@ public class Entity
 
         return null;
     }
+
+    public void instantiate()
+    {
+        for (EntitySubSystem subSystem : subSystems) subSystem.instantiate(true);
+        onInstantiation();
+    }
+
+    public void destroy()
+    {
+        for (EntitySubSystem subSystem : subSystems) subSystem.destroy(true);
+        onDestruction();
+    }
+
+    protected void onInstantiation() { /* NO OP */ }
+    protected void onDestruction() { /* NO OP */ }
 
 }
