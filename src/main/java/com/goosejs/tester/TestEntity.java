@@ -6,42 +6,44 @@ import com.goosejs.apollo.entity.subsystems.EntitySubSystemPosition;
 public class TestEntity extends Entity
 {
 
-    private EntitySubSystemPosition position;
-
     public TestEntity()
     {
-        addSubsystem(new EntitySubSystemPosition(0, 0, 0));
-        this.position = (EntitySubSystemPosition) getSubsystem("Position");
+        addSubSystem(new EntitySubSystemPosition(0, 0, 0));
     }
 
     public void setX(float x)
     {
-        this.position.setX(x);
+        this.getPositionSubSystem().setX(x);
     }
 
     public void setY(float y)
     {
-        this.position.setY(y);
+        this.getPositionSubSystem().setY(y);
     }
 
     public void setZ(float z)
     {
-        this.position.setZ(z);
+        this.getPositionSubSystem().setZ(z);
     }
 
     public float getX()
     {
-        return position.getX();
+        return getPositionSubSystem().getX();
     }
 
     public float getY()
     {
-        return position.getY();
+        return getPositionSubSystem().getY();
     }
 
     public float getZ()
     {
-        return position.getZ();
+        return getPositionSubSystem().getZ();
+    }
+
+    private EntitySubSystemPosition getPositionSubSystem()
+    {
+        return (EntitySubSystemPosition) getSubSystem("Position");
     }
 
 }

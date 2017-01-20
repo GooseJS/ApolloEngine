@@ -31,6 +31,8 @@ public class EntityTester extends LoopingApplicationBase
     private TestEntity testEntity;
     private TestEntity testEntity2;
 
+    private int delayTimer = 100;
+
     @Override
     public void runApplicationLoop()
     {
@@ -41,8 +43,13 @@ public class EntityTester extends LoopingApplicationBase
         if (testEntity2 != null)
         {
             fontRenderer.drawString(10, 30, String.format("Entity 2 Position - X: %.3f, Y: %.3f, Z: %.3f", testEntity2.getX(), testEntity2.getY(), testEntity2.getZ()));
-            testEntity2.setX((float)window.getCursorPosCallback().getMouseY());
-            testEntity2.setY((float)window.getCursorPosCallback().getMouseX());
+            if (delayTimer < 0)
+            {
+                //testEntity2.setX((float) window.getCursorPosCallback().getMouseY());
+                //testEntity2.setY((float) window.getCursorPosCallback().getMouseX());
+            }
+            else
+                delayTimer--;
         }
 
         testEntity.setX((float)window.getCursorPosCallback().getMouseX());

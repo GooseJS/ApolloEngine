@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 public class EntityDataArrayList implements IEntityData
 {
-
     private final ArrayList<EntitySubSystem> subSystems;
     private final Entity parentEntity;
 
@@ -47,6 +46,24 @@ public class EntityDataArrayList implements IEntityData
         }
 
         return null;
+    }
+
+    @Override
+    public void instantiate(Entity newInstance)
+    {
+        for (EntitySubSystem subSystem : subSystems) newInstance.addSubSystem(subSystem.instantiate());
+    }
+
+    @Override
+    public void destroy()
+    {
+        Iterator<EntitySubSystem> iter = subSystems.iterator();
+
+        while (iter.hasNext())
+        {
+            iter.next().onDestroy();
+            iter.remove();
+        }
     }
 
     @Override

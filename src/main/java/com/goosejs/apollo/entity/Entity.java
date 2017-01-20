@@ -45,14 +45,40 @@ public class Entity<T extends Entity>
         return newInstance;
     }
 
-    public void destroy()
+    protected final void customInstantiation() { shouldUseCustomInstantiation = true; }
+
+    public final void addSubSystem(EntitySubSystem subSystem)
+    {
+        addSubSystem(subSystem, false);
+    }
+
+    public final boolean addSubSystem(EntitySubSystem subSystem, boolean force)
+    {
+        return entityData.addSubSystem(subSystem, force);
+    }
+
+    public final EntitySubSystem removeSubSystem(String subSystem)
+    {
+        return entityData.removeSubSystem(subSystem);
+    }
+
+    public final boolean containsSubSystem(String subSystem)
+    {
+        return entityData.containsSubSystem(subSystem);
+    }
+
+    public final EntitySubSystem getSubSystem(String subSystem)
+    {
+        return entityData.getSubSystem(subSystem);
+    }
+
+    public final void destroy()
     {
         entityData.destroy();
         onDestruction();
     }
 
     protected T onInstantiation() { /* NO OP */ return null; }
-    protected void customInstantiation() { shouldUseCustomInstantiation = true; }
     protected void onDestruction() { /* NO OP */ }
 
 }

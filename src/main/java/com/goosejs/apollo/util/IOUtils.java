@@ -39,7 +39,7 @@ public class IOUtils
 
     public static ByteBuffer fileToByteBufferE(String file, int bufferSize) throws IOException
     {
-        ByteBuffer buffer = BufferUtils.createByteBuffer(1);
+        ByteBuffer buffer;
 
         Path path = Paths.get(file);
         if (Files.isReadable(path))
