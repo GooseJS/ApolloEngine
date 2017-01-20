@@ -1,5 +1,7 @@
 package com.goosejs.apollo.entity;
 
+import com.goosejs.apollo.entity.data.EntityDataHashmap;
+import com.goosejs.apollo.entity.data.IEntityData;
 import com.goosejs.apollo.entity.subsystems.EntitySubSystem;
 
 import java.util.ArrayList;
@@ -14,52 +16,12 @@ public class Entity<T extends Entity>
 
     // TODO: Further documentation of this class
 
-    private final ArrayList<EntitySubSystem> subSystems;
-
     private boolean shouldUseCustomInstantiation;
+    private IEntityData entityData;
 
     protected Entity()
     {
-        subSystems = new ArrayList<>();
-    }
-
-    protected boolean addSubsystem(EntitySubSystem subSystem)
-    {
-        return addSubsystem(subSystem, false);
-    }
-
-    protected boolean addSubsystem(EntitySubSystem subSystem, boolean force)
-    {
-        if (containsSubsystem(subSystem.getSubsystemName()))
-        {
-            if (!force)
-                return false;
-            else
-            {
-                subSystems.remove(getSubsystem(subSystem.getSubsystemName()));
-            }
-        }
-
-        subSystem.setParentEntity(this);
-        subSystem.onCreate();
-        return subSystems.add(subSystem);
-    }
-
-    public final boolean containsSubsystem(String subsystemName)
-    {
-        return getSubsystem(subsystemName) != null;
-    }
-
-    public final EntitySubSystem getSubsystem(String subsystemName)
-    {
-        // TODO: Look into making this method more efficient, because currently it is not practical to call this every tick
-        for (EntitySubSystem subSystem : subSystems)
-        {
-            if (subSystem.getSubsystemName().equals(subsystemName))
-                return subSystem;
-        }
-
-        return null;
+        entityData = new EntityDataHashmap(this);
     }
 
     public T instantiate()
@@ -78,14 +40,14 @@ public class Entity<T extends Entity>
             // TODO: Handle this
         }
 
-        for (EntitySubSystem subSystem : subSystems) newInstance.addSubsystem(subSystem.instantiate(), true);
+        entityData.instantiate(newInstance);
 
         return newInstance;
     }
 
     public void destroy()
     {
-        for (EntitySubSystem subSystem : subSystems) subSystem.onDestroy();
+        entityData.destroy();
         onDestruction();
     }
 

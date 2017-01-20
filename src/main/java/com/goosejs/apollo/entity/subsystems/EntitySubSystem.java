@@ -72,7 +72,7 @@ public abstract class EntitySubSystem<T extends EntitySubSystem>
     /**
      * @return the name of the subsystem
      */
-    public final String getSubsystemName()
+    public final String getSubSystemName()
     {
         return this.subsystemName;
     }
