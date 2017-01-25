@@ -17,7 +17,6 @@ public class VertexBuffer
     private VertexFormatElement vertexFormatElement;
     private int vertexFormatIndex;
 
-    /** None */
     private boolean noColor;
     private int drawMode;
     private double xOffset;

@@ -2,6 +2,8 @@ package com.goosejs.apollo.client.renderer.font;
 
 import com.goosejs.apollo.backend.lwjgl.opengl.*;
 import com.goosejs.apollo.client.gui.elements.subelements.GuiString;
+import com.goosejs.apollo.util.ApolloBufferUtils;
+import com.goosejs.apollo.util.GLUtils;
 import com.goosejs.apollo.util.IOUtils;
 import com.goosejs.apollo.util.Logger;
 import org.joml.Matrix4f;
@@ -249,7 +251,7 @@ public class TrueTypeFontRenderer
             for (int i = 0; i < text.length(); i++)
             {
                 STBTruetype.stbtt_GetPackedQuad(chardata, 512, 512, text.charAt(i), xb, yb, quad, false);
-                addDataToArrayList(efficientDrawVertices, efficientDrawTexCoords,
+                GLUtils.addDataToArrayList(efficientDrawVertices, efficientDrawTexCoords,
                         quad.x0(), quad.y0(), quad.x1(), quad.y1(),
                         quad.s0(), quad.t0(), quad.s1(), quad.t1());
                 xb.put(0, xb.get(0) + additionFontSpacing);
@@ -267,8 +269,8 @@ public class TrueTypeFontRenderer
 
             if (vaoBinding)
                 VAO.bindVAO(vaoID);
-            VAOUtils.storeDataInAttributeList(-1, false, vertexID, false, 0, 2, 0, efficientDrawVertices);
-            VAOUtils.storeDataInAttributeList(-1, false, texCoordID, false, 1, 2, 0, efficientDrawTexCoords);
+            VAOUtils.storeDataInAttributeList(0, 2, 0, ApolloBufferUtils.createFloatBuffer(efficientDrawVertices));
+            VAOUtils.storeDataInAttributeList(1, 2, 0, ApolloBufferUtils.createFloatBuffer(efficientDrawTexCoords));
 
             fontShader.useProgram();
             fontShader.loadColor(efficientDrawR, efficientDrawG, efficientDrawB);
@@ -311,47 +313,6 @@ public class TrueTypeFontRenderer
     public float getFontHeight()
     {
         return scale;
-    }
-
-    private void addDataToArrayList(ArrayList<Float> vertices, ArrayList<Float> texCoord, float x0, float y0, float x1, float y1, float s0, float t0, float s1, float t1)
-    {
-        vertices.add(x1);
-        vertices.add(y0);
-
-        vertices.add(x1);
-        vertices.add(y1);
-
-        vertices.add(x0);
-        vertices.add(y1);
-
-        vertices.add(x0);
-        vertices.add(y1);
-
-        vertices.add(x0);
-        vertices.add(y0);
-
-        vertices.add(x1);
-        vertices.add(y0);
-
-        //
-
-        texCoord.add(s1);
-        texCoord.add(t0);
-
-        texCoord.add(s1);
-        texCoord.add(t1);
-
-        texCoord.add(s0);
-        texCoord.add(t1);
-
-        texCoord.add(s0);
-        texCoord.add(t1);
-
-        texCoord.add(s0);
-        texCoord.add(t0);
-
-        texCoord.add(s1);
-        texCoord.add(t0);
     }
 
     public float getTranslatedX()

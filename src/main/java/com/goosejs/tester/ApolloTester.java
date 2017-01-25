@@ -6,6 +6,7 @@ import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.*;
 import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedShader;
+import com.goosejs.apollo.util.ApolloBufferUtils;
 import com.goosejs.apollo.util.Logger;
 import org.lwjgl.opengl.GL11;
 
@@ -116,7 +117,7 @@ public class ApolloTester extends LoopingApplicationBase
         texturedShader = new TexturedShader();
         vboID = VBO.createVBO();
         texCoordID = VBO.createVBO();
-        vboID = VAOUtils.storeDataInAttributeList(-1, false, vboID, false, 0, 2, 0, new float[] {
+        vboID = VAOUtils.storeDataInAttributeList(0, 2, 0, ApolloBufferUtils.createFloatBuffer(new float[] {
                 -0.5f, 0.5f,
                 0.5f, 0.5f,
                 -0.5f, -0.5f,
@@ -124,15 +125,15 @@ public class ApolloTester extends LoopingApplicationBase
                 -0.5f, -0.5f,
                 0.5f, 0.5f,
                 0.5f, -0.5f
-        });
-        VAOUtils.storeDataInAttributeList(-1, false, texCoordID, false, 1, 2, 0, new float [] {
+        }));
+        VAOUtils.storeDataInAttributeList(1, 2, 0, ApolloBufferUtils.createFloatBuffer(new float [] {
                 1, 0,
                 0, 0,
                 1, 1,
                 1, 1,
                 0, 0,
                 0, 1
-        });
+        }));
         VAO.unbindVAO();
 
         Logger.info("Post-Init");
