@@ -3,6 +3,7 @@ package com.goosejs.tester;
 import com.goosejs.apollo.backend.lwjgl.glfw.ExtendableKeyboardCallback;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
+import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedRenderer;
 import org.lwjgl.glfw.GLFW;
@@ -26,7 +27,7 @@ public class TexturedRendererTester
 
         Texture texture = new Texture("texture.png");
 
-        TexturedRenderer texturedRenderer = new TexturedRenderer();
+        SpriteBatch batch = new SpriteBatch();
         TexturedPrimitive2D texturedPrimitive = new TexturedPrimitive2D(texture, 100, 100);
 
         float renderX = 0;
@@ -37,7 +38,10 @@ public class TexturedRendererTester
             GL11.glClearColor(1, 0, 0, 1);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-            texturedRenderer.drawTexture(texturedPrimitive, renderX, renderY);
+            batch.draw(texturedPrimitive, renderX, renderY);
+            batch.draw(texturedPrimitive, renderX + 100, renderY + 100);
+
+            batch.flushQueue();
 
             if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_W))
                 renderY--;
