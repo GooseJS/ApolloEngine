@@ -6,12 +6,12 @@ import com.goosejs.apollo.entity.subsystems.EntitySubSystem;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class EntityDataArrayList implements IEntityData
+public class EntitySubSystemInformationArrayList implements IEntitySubSystemInformation
 {
     private final ArrayList<EntitySubSystem> subSystems;
     private final Entity parentEntity;
 
-    public EntityDataArrayList(Entity parentEntity)
+    public EntitySubSystemInformationArrayList(Entity parentEntity)
     {
         subSystems = new ArrayList<>();
         this.parentEntity = parentEntity;

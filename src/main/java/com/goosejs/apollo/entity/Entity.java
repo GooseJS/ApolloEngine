@@ -1,10 +1,8 @@
 package com.goosejs.apollo.entity;
 
-import com.goosejs.apollo.entity.data.EntityDataHashmap;
-import com.goosejs.apollo.entity.data.IEntityData;
+import com.goosejs.apollo.entity.data.EntitySubSystemInformationHashmap;
+import com.goosejs.apollo.entity.data.IEntitySubSystemInformation;
 import com.goosejs.apollo.entity.subsystems.EntitySubSystem;
-
-import java.util.ArrayList;
 
 /**
  * The base class for the Entity Component System
@@ -17,11 +15,11 @@ public class Entity<T extends Entity>
     // TODO: Further documentation of this class
 
     private boolean shouldUseCustomInstantiation;
-    private IEntityData entityData;
+    private IEntitySubSystemInformation entityData;
 
     protected Entity()
     {
-        entityData = new EntityDataHashmap(this);
+        entityData = new EntitySubSystemInformationHashmap(this);
     }
 
     public T instantiate()

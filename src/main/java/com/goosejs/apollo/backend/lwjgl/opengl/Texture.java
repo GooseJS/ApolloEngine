@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.lwjgl.stb.STBImage.*;
 
+// TODO: Document this class
 public class Texture
 {
 

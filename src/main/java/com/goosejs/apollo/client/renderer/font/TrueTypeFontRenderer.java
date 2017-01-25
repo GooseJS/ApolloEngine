@@ -6,7 +6,6 @@ import com.goosejs.apollo.util.IOUtils;
 import com.goosejs.apollo.util.Logger;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.stb.STBTTAlignedQuad;
@@ -182,12 +181,12 @@ public class TrueTypeFontRenderer
         Texture.generateMipMap();
 
         if (vaoBinding)
-            vaoID = VertexArray.createVAO();
-        VertexArray.bindVAO(vaoID);
-        vertexID = VertexBufferObject.createVBO();
-        texCoordID = VertexBufferObject.createVBO();
+            vaoID = VAO.createVAO();
+        VAO.bindVAO(vaoID);
+        vertexID = VBO.createVBO();
+        texCoordID = VBO.createVBO();
         if (vaoBinding)
-            VertexArray.unbindVAO();
+            VAO.unbindVAO();
     }
 
     public void drawString(float x, float y, String text)
@@ -267,7 +266,7 @@ public class TrueTypeFontRenderer
             drawing = false;
 
             if (vaoBinding)
-                VertexArray.bindVAO(vaoID);
+                VAO.bindVAO(vaoID);
             VAOUtils.storeDataInAttributeList(-1, false, vertexID, false, 0, 2, 0, efficientDrawVertices);
             VAOUtils.storeDataInAttributeList(-1, false, texCoordID, false, 1, 2, 0, efficientDrawTexCoords);
 
@@ -275,13 +274,13 @@ public class TrueTypeFontRenderer
             fontShader.loadColor(efficientDrawR, efficientDrawG, efficientDrawB);
             //fontShader.loadAlpha(a); TODO: Make this work
             Texture.bindTexture(fontTextureID);
-            VertexArray.enableAttribArray(0, 1);
+            VAO.enableAttribArray(0, 1);
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, efficientDrawVertices.size() / 2);
-            VertexArray.disableAttribArray(0, 1);
+            VAO.disableAttribArray(0, 1);
             Texture.unbindTextureStatic();
             fontShader.stopUsingProgram();
             if (vaoBinding)
-                VertexArray.unbindVAO();
+                VAO.unbindVAO();
 
             GLStateManager.popState();
         }

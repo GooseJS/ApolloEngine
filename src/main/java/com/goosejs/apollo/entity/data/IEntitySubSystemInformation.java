@@ -3,7 +3,7 @@ package com.goosejs.apollo.entity.data;
 import com.goosejs.apollo.entity.Entity;
 import com.goosejs.apollo.entity.subsystems.EntitySubSystem;
 
-public interface IEntityData
+public interface IEntitySubSystemInformation
 {
 
     boolean addSubSystem(EntitySubSystem subSystem, boolean force);

@@ -1,8 +1,8 @@
 package com.goosejs.apollo.util;
 
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
-import com.goosejs.apollo.backend.lwjgl.opengl.VertexArray;
-import com.goosejs.apollo.backend.lwjgl.opengl.VertexBufferObject;
+import com.goosejs.apollo.backend.lwjgl.opengl.VAO;
+import com.goosejs.apollo.backend.lwjgl.opengl.VBO;
 
 public class ApolloUtils
 {
@@ -11,8 +11,8 @@ public class ApolloUtils
 
     public static void cleanupEverything()
     {
-        VertexArray.cleanup();
-        VertexBufferObject.cleanup();
+        VAO.cleanup();
+        VBO.cleanup();
         Texture.cleanup();
     }
 

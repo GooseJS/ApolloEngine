@@ -1,8 +1,8 @@
 package com.goosejs.apollo.client.renderer.glRendering;
 
 import com.goosejs.apollo.backend.lwjgl.opengl.GlobalOrthoMatrix;
-import com.goosejs.apollo.backend.lwjgl.opengl.VertexArray;
-import com.goosejs.apollo.backend.lwjgl.opengl.VertexBufferObject;
+import com.goosejs.apollo.backend.lwjgl.opengl.VAO;
+import com.goosejs.apollo.backend.lwjgl.opengl.VBO;
 import com.goosejs.apollo.backend.lwjgl.opengl.VertexBufferType;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
@@ -50,7 +50,7 @@ public class VertexBufferUploader
             ByteBuffer bytebuffer = vertexBuffer.getByteBuffer();
             List<VertexFormatElement> list = vertexformat.getElements();
 
-            VertexArray.bindVAO(VAOID);
+            VAO.bindVAO(VAOID);
 
             for (int i = 0; i < list.size(); ++i)
             {
@@ -62,17 +62,17 @@ public class VertexBufferUploader
                 switch (usage)
                 {
                     case POSITION:
-                        VertexBufferObject.bindVBO(VertexBufferType.ARRAY_BUFFER, VBOID);
+                        VBO.bindVBO(VertexBufferType.ARRAY_BUFFER, VBOID);
                         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, bytebuffer, GL15.GL_DYNAMIC_DRAW);
-                        VertexArray.vertexAttribPointer(0, vertexFormatElement.getElementCount(), glConstant, false, nextOffset, 0);
-                        VertexArray.enableAttribArray(0);
+                        VAO.vertexAttribPointer(0, vertexFormatElement.getElementCount(), glConstant, false, nextOffset, 0);
+                        VAO.enableAttribArray(0);
                         break;
 
                     case COLOR:
-                        VertexBufferObject.bindVBO(VertexBufferType.ARRAY_BUFFER, VBOCOLID);
+                        VBO.bindVBO(VertexBufferType.ARRAY_BUFFER, VBOCOLID);
                         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, bytebuffer, GL15.GL_DYNAMIC_DRAW);
-                        VertexArray.vertexAttribPointer(1, vertexFormatElement.getElementCount(), glConstant, false, nextOffset, 0);
-                        VertexArray.enableAttribArray(1);
+                        VAO.vertexAttribPointer(1, vertexFormatElement.getElementCount(), glConstant, false, nextOffset, 0);
+                        VAO.enableAttribArray(1);
                         break;
                 }
             }
@@ -89,16 +89,16 @@ public class VertexBufferUploader
                 switch (usage)
                 {
                     case POSITION:
-                        VertexArray.disableAttribArray(0);
+                        VAO.disableAttribArray(0);
                         break;
 
                     case COLOR:
-                        VertexArray.disableAttribArray(0);
+                        VAO.disableAttribArray(0);
                         break;
 
                 }
             }
-            VertexArray.unbindVAO();
+            VAO.unbindVAO();
         }
 
         vertexBuffer.reset();
@@ -112,9 +112,9 @@ public class VertexBufferUploader
             shader.loadOrthoMatrix(GlobalOrthoMatrix.getGlobalOrthoMatrix());
             shader.stopUsingProgram();
         });
-        VAOID = VertexArray.createVAO();
-        VBOID = VertexBufferObject.createVBO();
-        VBOCOLID = VertexBufferObject.createVBO();
+        VAOID = VAO.createVAO();
+        VBOID = VBO.createVBO();
+        VBOCOLID = VBO.createVBO();
         shader = new VertexBufferShader();
         shader.useProgram();
         shader.loadOrthoMatrix(GlobalOrthoMatrix.getGlobalOrthoMatrix());

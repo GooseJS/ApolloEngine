@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Stack;
 
+// TODO: Document this class
+// TODO: Look into possibly removing this class in exchange for a better solution
 public class GLStateManager
 {
 

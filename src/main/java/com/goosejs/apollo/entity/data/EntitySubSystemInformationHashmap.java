@@ -4,14 +4,13 @@ import com.goosejs.apollo.entity.Entity;
 import com.goosejs.apollo.entity.subsystems.EntitySubSystem;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
-public class EntityDataHashmap implements IEntityData
+public class EntitySubSystemInformationHashmap implements IEntitySubSystemInformation
 {
     private final HashMap<String, EntitySubSystem> subSystems;
     private final Entity parentEntity;
 
-    public EntityDataHashmap(Entity parentEntity)
+    public EntitySubSystemInformationHashmap(Entity parentEntity)
     {
         this.parentEntity = parentEntity;
         this.subSystems = new HashMap<>();

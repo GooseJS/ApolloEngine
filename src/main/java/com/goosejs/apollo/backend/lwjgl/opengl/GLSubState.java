@@ -2,6 +2,7 @@ package com.goosejs.apollo.backend.lwjgl.opengl;
 
 import static org.lwjgl.opengl.GL11.*;
 
+// TODO: Document this class
 public interface GLSubState
 {
 

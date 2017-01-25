@@ -5,6 +5,7 @@ import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 
+// TODO: Document this class
 public class GlobalOrthoMatrix
 {
 

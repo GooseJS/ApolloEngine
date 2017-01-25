@@ -60,15 +60,15 @@ public class ApolloTester extends LoopingApplicationBase
         if (b > 1) bIncrease = false;
         if (b < 0) bIncrease = true;
 
-        VertexArray.bindVAO(vaoID);
+        VAO.bindVAO(vaoID);
         texturedShader.useProgram();
         texture.bindTexture();
-        VertexArray.enableAttribArray(0, 1);
+        VAO.enableAttribArray(0, 1);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
-        VertexArray.disableAttribArray(0, 1);
+        VAO.disableAttribArray(0, 1);
         texture.unbindTexture();
         texturedShader.stopUsingProgram();
-        VertexArray.unbindVAO();
+        VAO.unbindVAO();
 
         fontRenderer.drawString(1, 1, "Looooo testing");
 
@@ -110,12 +110,12 @@ public class ApolloTester extends LoopingApplicationBase
     {
         fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf", 25f, 0f, 0, 0, window.getWidth(), window.getHeight());
         fontRenderer.resetTranslation();
-        vaoID = VertexArray.createVAO();
-        VertexArray.bindVAO(vaoID);
+        vaoID = VAO.createVAO();
+        VAO.bindVAO(vaoID);
         texture = new Texture("texture.png");
         texturedShader = new TexturedShader();
-        vboID = VertexBufferObject.createVBO();
-        texCoordID = VertexBufferObject.createVBO();
+        vboID = VBO.createVBO();
+        texCoordID = VBO.createVBO();
         vboID = VAOUtils.storeDataInAttributeList(-1, false, vboID, false, 0, 2, 0, new float[] {
                 -0.5f, 0.5f,
                 0.5f, 0.5f,
@@ -133,7 +133,7 @@ public class ApolloTester extends LoopingApplicationBase
                 0, 0,
                 0, 1
         });
-        VertexArray.unbindVAO();
+        VAO.unbindVAO();
 
         Logger.info("Post-Init");
         //AudioMaster.init();
