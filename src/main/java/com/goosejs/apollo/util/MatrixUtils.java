@@ -49,12 +49,11 @@ public class MatrixUtils
         return matrix;
     }
 
-    public static Matrix4f createPerspectiveMatrix(float fovy, float aspect, float zNear, float zFar, float eyeX, float eyeY, float eyeZ, float centerX, float
-            centerY, float centerZ)
+    public static Matrix4f createPerspectiveMatrix(float fovy, float aspect, float zNear, float zFar)
     {
         Matrix4f matrix = new Matrix4f();
 
-        matrix.perspective((float)Math.toRadians(fovy), aspect, zNear, zFar).lookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, eyeX, eyeY + 1, eyeZ);
+        matrix.perspective((float)Math.toRadians(fovy), aspect, zNear, zFar);
 
         return matrix;
     }

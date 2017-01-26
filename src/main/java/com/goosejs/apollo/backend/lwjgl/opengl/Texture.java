@@ -60,6 +60,7 @@ public class Texture
         try
         {
             fileBuffer = IOUtils.fileToByteBufferE(image, 8 * 1024);
+            stbi_set_flip_vertically_on_load(true);
             stbi_info_from_memory(fileBuffer, width, height, comp);
 
             actualImage = stbi_load_from_memory(fileBuffer, width, height, comp, 0);

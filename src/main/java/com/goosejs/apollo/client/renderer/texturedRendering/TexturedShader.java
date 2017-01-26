@@ -21,9 +21,9 @@ public class TexturedShader extends ShaderProgram
         super.bindAttribute(1, "textureCoordinates");
     }
 
-    public void loadOrthoMatrix(Matrix4f matrix)
+    public void loadPerspectiveMatrix(Matrix4f matrix)
     {
-        super.loadMatrix4f(super.getUniformLocation("orthoMatrix"), matrix);
+        super.loadMatrix4f(super.getUniformLocation("perspectiveMatrix"), matrix);
     }
 
     Matrix4f matrix = new Matrix4f();

@@ -31,13 +31,15 @@ public class TexturedRendererTester
 
         float renderX = 0;
         float renderY = 0;
+        float renderZ = -10;
 
         while (!window.shouldClose())
         {
             GL11.glClearColor(1, 0, 0, 1);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-            batch.draw(texturedPrimitive, renderX, renderY);
+            batch.draw(texturedPrimitive, renderX, renderY, renderZ);
+            renderZ -= 0.1f;
 
             batch.flushQueue();
 

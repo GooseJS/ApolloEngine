@@ -3,6 +3,7 @@ package com.goosejs.apollo.client.renderer.texturedRendering;
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.backend.lwjgl.opengl.VAO;
 import com.goosejs.apollo.util.MatrixUtils;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 public class TexturedRenderer
@@ -16,11 +17,18 @@ public class TexturedRenderer
     {
         this.texturedShader = new TexturedShader();
         texturedShader.useProgram();
-        texturedShader.loadOrthoMatrix(MatrixUtils.createOrthoMatrix(0, 800, 0, 600, -1, 1)); // TODO: Global ortho matrix
+        texturedShader.loadPerspectiveMatrix(MatrixUtils.createOrthoMatrix(0, 800, 0, 600, -1, 1)); // TODO: Global perpsective matrix
         texturedShader.stopUsingProgram();
     }
 
-    public void drawTexture(TexturedPrimitive2D texturedPrimitive, float x, float y, float renderRot)
+    public void loadPerspectiveMatrix(Matrix4f matrix)
+    {
+        texturedShader.useProgram();
+        texturedShader.loadPerspectiveMatrix(matrix);
+        texturedShader.stopUsingProgram();
+    }
+
+    public void drawTexture(TexturedPrimitive2D texturedPrimitive, float x, float y, float z, float renderRot)
     {
         if (!batchRendering)
         {
@@ -28,7 +36,7 @@ public class TexturedRenderer
             texturedPrimitive.getTexture().bindTexture();
             VAO.bindVAO(texturedPrimitive.getVAOID());
             VAO.enableAttribArray(0, 1);
-            texturedShader.loadTranslation(x, y, 0, 0, renderRot, 0);
+            texturedShader.loadTranslation(x, y, z, 0, renderRot, 0);
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, texturedPrimitive.getVertexCount());
             VAO.disableAttribArray(0, 1);
             texturedShader.stopUsingProgram();

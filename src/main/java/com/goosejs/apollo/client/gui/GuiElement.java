@@ -13,7 +13,7 @@
 //    static
 //    {
 //        fontRenderer = new TrueTypeFontRenderer(GChat.fontFile, 17.5f, 1f, 0, 0, 400, 600);
-//        fontRenderer.loadOrthoMatrix(0, 0, 0, 0);
+//        fontRenderer.loadPerspectiveMatrix(0, 0, 0, 0);
 //    }
 //
 //    private int x;
@@ -33,8 +33,8 @@
 //
 //    public final void drawStart()
 //    {
-//        fontRenderer.loadOrthoMatrix(0, 0, width, height);
-//        Tessellator.getInstance().loadOrthoMatrix(0, 0, width, height);
+//        fontRenderer.loadPerspectiveMatrix(0, 0, width, height);
+//        Tessellator.getInstance().loadPerspectiveMatrix(0, 0, width, height);
 //        GL11.glViewport(x, (GChat.getInstance().getWindow().getHeight() - height - y), width, height); // TODO: Add support for retina (THIS SHOULD BE TIMES 2 FOR RETINA
 //        onDrawStart();
 //    }
