@@ -10,6 +10,6 @@ uniform mat4 translationMatrix;
 
 void main(void)
 {
-    gl_Position = orthoMatrix * translationMatrix * vec4(positions, 0.0, 1.0);
+    gl_Position = translationMatrix * vec4(positions, 0.0, 1.0);
     outTextureCoordinates = textureCoordinates;
 }

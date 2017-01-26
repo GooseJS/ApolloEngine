@@ -28,15 +28,18 @@ public class SpriteBatch
         renders.put(primitive.getTexture().getTextureID(), renderables);
     }
 
+    float renderRot = 0;
+
     public void flushQueue()
     {
+        renderRot += 0.5f;
         for (Integer integer : renders.keySet())
         {
             List<Renderable> renderables = renders.get(integer);
 
             for (Renderable renderable : renderables)
             {
-                renderer.drawTexture(renderable.primitive, renderable.x, renderable.y);
+                renderer.drawTexture(renderable.primitive, renderable.x, renderable.y, renderRot);
             }
         }
 

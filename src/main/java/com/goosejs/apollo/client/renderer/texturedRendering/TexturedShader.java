@@ -2,6 +2,7 @@ package com.goosejs.apollo.client.renderer.texturedRendering;
 
 import com.goosejs.apollo.shader.ShaderProgram;
 import org.joml.Matrix4f;
+import org.joml.Quaternionfc;
 
 import java.io.File;
 
@@ -26,10 +27,9 @@ public class TexturedShader extends ShaderProgram
     }
 
     Matrix4f matrix = new Matrix4f();
-    public void loadTranslation(float x, float y)
+    public void loadTranslation(float x, float y, float z, float rotX, float rotY, float rotZ)
     {
-        matrix.zero();
-        matrix.translation(x, y, 0);
+        matrix.translation(x, y, z).rotateX((float)Math.toRadians(rotX)).rotateY((float)Math.toRadians(rotY)).rotateZ((float)Math.toRadians(rotZ));
         super.loadMatrix4f(super.getUniformLocation("translationMatrix"), matrix);
     }
 }

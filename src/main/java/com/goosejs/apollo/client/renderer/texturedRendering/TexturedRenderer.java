@@ -20,7 +20,7 @@ public class TexturedRenderer
         texturedShader.stopUsingProgram();
     }
 
-    public void drawTexture(TexturedPrimitive2D texturedPrimitive, float x, float y)
+    public void drawTexture(TexturedPrimitive2D texturedPrimitive, float x, float y, float renderRot)
     {
         if (!batchRendering)
         {
@@ -28,7 +28,7 @@ public class TexturedRenderer
             texturedPrimitive.getTexture().bindTexture();
             VAO.bindVAO(texturedPrimitive.getVAOID());
             VAO.enableAttribArray(0, 1);
-            texturedShader.loadTranslation(x, y);
+            texturedShader.loadTranslation(x, y, 0, 0, renderRot, 0);
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, texturedPrimitive.getVertexCount());
             VAO.disableAttribArray(0, 1);
             texturedShader.stopUsingProgram();
@@ -46,7 +46,7 @@ public class TexturedRenderer
     {
         VAO.bindVAO(primitive.getVAOID());
         VAO.enableAttribArray(0, 1);
-        texturedShader.loadTranslation(x, y);
+        texturedShader.loadTranslation(x, y, 0, 0, 0, 0);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, primitive.getVertexCount());
         VAO.disableAttribArray(0, 1);
     }

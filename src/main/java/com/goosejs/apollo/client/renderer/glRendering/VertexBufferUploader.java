@@ -1,6 +1,6 @@
 package com.goosejs.apollo.client.renderer.glRendering;
 
-import com.goosejs.apollo.backend.lwjgl.opengl.GlobalOrthoMatrix;
+import com.goosejs.apollo.backend.lwjgl.opengl.GlobalPerspectiveMatrices;
 import com.goosejs.apollo.backend.lwjgl.opengl.VAO;
 import com.goosejs.apollo.backend.lwjgl.opengl.VBO;
 import com.goosejs.apollo.backend.lwjgl.opengl.VertexBufferType;
@@ -34,7 +34,7 @@ public class VertexBufferUploader
             setup();
 
         shader.useProgram();
-        shader.loadOrthoMatrix(GlobalOrthoMatrix.getGlobalOrthoMatrix());
+        shader.loadOrthoMatrix(GlobalPerspectiveMatrices.getGlobal2DPerspectiveMatrix());
         shader.stopUsingProgram();
     }
 
@@ -106,10 +106,10 @@ public class VertexBufferUploader
 
     private void setup()
     {
-        GlobalOrthoMatrix.addOnMatrixChange((x0, y0, x1, y1) ->
+        GlobalPerspectiveMatrices.add2DPerspectiveOnChange((x0, y0, x1, y1) ->
         {
             shader.useProgram();
-            shader.loadOrthoMatrix(GlobalOrthoMatrix.getGlobalOrthoMatrix());
+            shader.loadOrthoMatrix(GlobalPerspectiveMatrices.getGlobal2DPerspectiveMatrix());
             shader.stopUsingProgram();
         });
         VAOID = VAO.createVAO();
@@ -117,7 +117,7 @@ public class VertexBufferUploader
         VBOCOLID = VBO.createVBO();
         shader = new VertexBufferShader();
         shader.useProgram();
-        shader.loadOrthoMatrix(GlobalOrthoMatrix.getGlobalOrthoMatrix());
+        shader.loadOrthoMatrix(GlobalPerspectiveMatrices.getGlobal2DPerspectiveMatrix());
         shader.stopUsingProgram();
     }
 

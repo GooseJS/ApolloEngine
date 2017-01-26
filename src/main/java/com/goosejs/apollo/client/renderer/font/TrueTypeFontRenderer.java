@@ -83,7 +83,7 @@ public class TrueTypeFontRenderer
         this.additionFontSpacing = additionalFontSpacing;
         fontShader = new FontShader();
         loadFonts(fontFile);
-        GlobalOrthoMatrix.addOnMatrixChange((x02, y02, x12, y12) -> windowResized(x12, y12));
+        GlobalPerspectiveMatrices.add2DPerspectiveOnChange((x02, y02, x12, y12) -> windowResized(x12, y12));
         this.originalX = x0;
         this.originalWidth = x1;
         this.originalY = y0;
