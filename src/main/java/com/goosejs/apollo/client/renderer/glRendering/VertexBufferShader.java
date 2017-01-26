@@ -8,7 +8,7 @@ public class VertexBufferShader extends ShaderProgram
 {
     public VertexBufferShader()
     {
-        super("shaders/vertexBufferShaders/com.goosejs.apollo.shader.vert", "shaders/vertexBufferShaders/com.goosejs.apollo.shader.frag");
+        super("shaders/vertexBufferShaders/shader.vert", "shaders/vertexBufferShaders/shader.frag");
     }
 
     @Override

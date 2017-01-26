@@ -275,6 +275,11 @@ public class Window
         }
     }
 
+    public void makeContextCurrent()
+    {
+        if (init) glfwMakeContextCurrent(windowPointer);
+    }
+
     /**
      * @return the width of the window
      */

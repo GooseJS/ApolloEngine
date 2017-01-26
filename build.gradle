@@ -6,6 +6,8 @@ version '0.1'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'java-library-distribution'
+apply plugin: 'jvm-component'
+apply plugin: 'java-lang'
 
 sourceCompatibility = 1.8
 
