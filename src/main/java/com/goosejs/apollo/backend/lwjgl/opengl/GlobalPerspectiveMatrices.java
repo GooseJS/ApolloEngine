@@ -40,15 +40,15 @@ public class GlobalPerspectiveMatrices
         if (perspectiveMatrix2DHooks != null) perspectiveMatrix2DHooks.forEach(hook -> hook.onMatrixChange(x0, y0, x1, y1));
     }
 
-    public static void update3DPerspectiveMatrix(int x0, int y0, int x1, int y1)
+    public static void update3DPerspectiveMatrix(float fovy, float aspect, float zNear, float zFar)
     {
-        //global3DPerspectiveMatrix = MatrixUtils.createPerspectiveMatrix();
-        if (perspectiveMatrix3DHooks != null) perspectiveMatrix3DHooks.forEach(hook -> hook.onMatrixChange(x0, y0, x1, y1));
+        global3DPerspectiveMatrix = MatrixUtils.createPerspectiveMatrix(fovy, aspect, zNear, zFar);
+        if (perspectiveMatrix3DHooks != null) perspectiveMatrix3DHooks.forEach(hook -> hook.onMatrixChange(fovy, aspect, zNear, zFar));
     }
 
     public interface OnMatrixChange
     {
-        void onMatrixChange(int x0, int y0, int x1, int y1);
+        void onMatrixChange(float x0, float y0, float x1, float y1);
     }
 
 }

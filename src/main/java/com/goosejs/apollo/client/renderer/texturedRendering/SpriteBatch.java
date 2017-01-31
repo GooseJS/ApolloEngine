@@ -1,5 +1,6 @@
 package com.goosejs.apollo.client.renderer.texturedRendering;
 
+import com.goosejs.apollo.backend.lwjgl.opengl.GlobalPerspectiveMatrices;
 import com.goosejs.apollo.util.MatrixUtils;
 import org.joml.Matrix4f;
 
@@ -17,6 +18,7 @@ public class SpriteBatch
 
     public SpriteBatch()
     {
+        GlobalPerspectiveMatrices.update2DPerspectiveMatrix(0, 0, 0, 0);
         renders = new HashMap<>();
         renderer = new TexturedRenderer();
         //renderer.loadPerspectiveMatrix(MatrixUtils.createPerspectiveMatrix(180f, 800f / 600f, -1, 1000));
@@ -64,17 +66,17 @@ public class SpriteBatch
         renders.put(primitive.getTexture().getTextureID(), renderables);
     }
 
-    float renderRot = 0;
-
     public void flushQueue()
     {
         for (Integer integer : renders.keySet())
         {
+            renderer.batchRenderStart(integer);
+
             List<Renderable> renderables = renders.get(integer);
 
             for (Renderable renderable : renderables)
             {
-                renderer.drawTexture(renderable.primitive, renderable.x, renderable.y, renderable.z, renderable.rotation);
+                renderer.batchRenderDraw(renderable.primitive, renderable.x, renderable.y, renderable.z, 0, renderable.rotation, 0);
             }
         }
 
