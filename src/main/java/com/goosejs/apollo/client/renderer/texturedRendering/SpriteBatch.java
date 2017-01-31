@@ -49,13 +49,18 @@ public class SpriteBatch
         draw(primitive2D, x, y, 1);
     }
 
-    public void draw(TexturedPrimitive2D primitive, float x, float y, float z)
+    public void draw(TexturedPrimitive2D primitive2D, float x, float y, float z)
+    {
+        draw(primitive2D, x, y, z, 0);
+    }
+
+    public void draw(TexturedPrimitive2D primitive, float x, float y, float z, float rotation)
     {
         List<Renderable> renderables = renders.get(primitive.getTexture().getTextureID());
         if (renderables == null)
             renderables = new ArrayList<>();
 
-        renderables.add(new Renderable(primitive, x, y, z));
+        renderables.add(new Renderable(primitive, x, y, z, rotation));
         renders.put(primitive.getTexture().getTextureID(), renderables);
     }
 
@@ -63,14 +68,13 @@ public class SpriteBatch
 
     public void flushQueue()
     {
-        renderRot += 0.5f;
         for (Integer integer : renders.keySet())
         {
             List<Renderable> renderables = renders.get(integer);
 
             for (Renderable renderable : renderables)
             {
-                renderer.drawTexture(renderable.primitive, renderable.x, renderable.y, renderable.z, renderRot);
+                renderer.drawTexture(renderable.primitive, renderable.x, renderable.y, renderable.z, renderable.rotation);
             }
         }
 
@@ -83,13 +87,15 @@ public class SpriteBatch
         final float x;
         final float y;
         final float z;
+        final float rotation;
 
-        public Renderable(TexturedPrimitive2D primitive, float x, float y, float z)
+        public Renderable(TexturedPrimitive2D primitive, float x, float y, float z, float rotation)
         {
             this.primitive = primitive;
             this.x = x;
             this.y = y;
             this.z = z;
+            this.rotation = rotation;
         }
     }
 

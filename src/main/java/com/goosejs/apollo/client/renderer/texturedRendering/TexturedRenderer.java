@@ -12,6 +12,7 @@ public class TexturedRenderer
     private TexturedShader texturedShader;
 
     private boolean batchRendering = false;
+    private int boundVAO = 0;
 
     public TexturedRenderer()
     {
@@ -52,7 +53,8 @@ public class TexturedRenderer
 
     public void batchRenderDraw(TexturedPrimitive2D primitive, float x, float y)
     {
-        VAO.bindVAO(primitive.getVAOID());
+        if (primitive.getVAOID() != boundVAO)
+            VAO.bindVAO(primitive.getVAOID());
         VAO.enableAttribArray(0, 1);
         texturedShader.loadTranslation(x, y, 0, 0, 0, 0);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, primitive.getVertexCount());
