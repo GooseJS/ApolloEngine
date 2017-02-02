@@ -90,7 +90,7 @@ public class SpriteBatch
 
             for (Renderable renderable : renderables)
             {
-                renderer.batchRenderDraw(renderable.primitive, renderable.x, renderable.y, renderable.z, 0, renderable.rotation, 0);
+                renderer.batchRenderDraw(renderable.primitive, renderable.x, renderable.y, renderable.z, 0, 0, renderable.rotation);
             }
         }
 
