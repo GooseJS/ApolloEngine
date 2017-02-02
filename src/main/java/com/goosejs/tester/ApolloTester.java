@@ -1,7 +1,7 @@
 package com.goosejs.tester;
 
 import com.goosejs.apollo.application.LoopingApplicationBase;
-import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
+import com.goosejs.apollo.application.applicationLoop.DefaultApplicationLoop;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.*;
 import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
@@ -22,7 +22,7 @@ public class ApolloTester extends LoopingApplicationBase
 
     public void startApp()
     {
-        setApplicationLoop(new ApplicationLoop());
+        setApplicationLoop(new DefaultApplicationLoop());
         setupApplicationLoop(this);
     }
 
@@ -73,7 +73,7 @@ public class ApolloTester extends LoopingApplicationBase
 
         fontRenderer.drawString(1, 1, "Looooo testing");
 
-        // TODO: Eventually this stuff should be handled by the ApplicationLoop
+        // TODO: Eventually this stuff should be handled by the DefaultApplicationLoop
         window.swapBuffers();
         window.pollEvents();
 

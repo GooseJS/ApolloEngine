@@ -1,5 +1,6 @@
 package com.goosejs.apollo.backend.lwjgl.opengl;
 
+import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.util.MatrixUtils;
 import org.joml.Matrix4f;
 
@@ -32,6 +33,11 @@ public class GlobalPerspectiveMatrices
         if (perspectiveMatrix3DHooks == null)
             perspectiveMatrix3DHooks = new ArrayList<>();
         perspectiveMatrix3DHooks.add(hook);
+    }
+
+    public static void update2DPerspectiveMatrix(Window window)
+    {
+        update2DPerspectiveMatrix(0, window.getHeight(), window.getWidth(), 0);
     }
 
     public static void update2DPerspectiveMatrix(int x0, int y0, int x1, int y1)

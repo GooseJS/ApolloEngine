@@ -5,7 +5,7 @@ import com.goosejs.apollo.application.ApplicationInitializer;
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.util.Logger;
 
-public class ApplicationLoop implements IApplicationLoop
+public class DefaultApplicationLoop implements IApplicationLoop
 {
     private LoopingApplicationBase applicationBase;
 

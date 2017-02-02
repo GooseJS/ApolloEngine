@@ -22,9 +22,10 @@ public class TexturedRendererTester
     public void start()
     {
         window = new Window(800, 600, "TexturedRendererTest", false, false);
-        GlobalPerspectiveMatrices.update2DPerspectiveMatrix(0, 600, 800, 0);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
+
+        GlobalPerspectiveMatrices.update2DPerspectiveMatrix(0, 600, 800, 0);
 
         Texture texture = new Texture("texture.png");
 

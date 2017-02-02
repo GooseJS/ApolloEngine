@@ -149,6 +149,18 @@ public class Window
     }
 
     /**
+     * @see #swapBuffers()
+     * @see #pollEvents()
+     * @see #shouldClose()
+     */
+    public boolean update()
+    {
+        swapBuffers();
+        pollEvents();
+        return !shouldClose();
+    }
+
+    /**
      * Will set the keyboard callback for this window
      * @param keyboardCallback The new keyboard callback
      */

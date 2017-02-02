@@ -1,12 +1,11 @@
 package com.goosejs.tester;
 
 import com.goosejs.apollo.application.LoopingApplicationBase;
-import com.goosejs.apollo.application.applicationLoop.ApplicationLoop;
+import com.goosejs.apollo.application.applicationLoop.DefaultApplicationLoop;
 import com.goosejs.apollo.backend.lwjgl.glfw.ExtendableCursorPosCallback;
 import com.goosejs.apollo.backend.lwjgl.glfw.ExtendableKeyboardCallback;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
-import com.goosejs.apollo.entity.subsystems.EntitySubSystemPosition;
 import com.goosejs.apollo.util.Logger;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -24,7 +23,7 @@ public class EntityTester extends LoopingApplicationBase
 
     public void startApp()
     {
-        setApplicationLoop(new ApplicationLoop());
+        setApplicationLoop(new DefaultApplicationLoop());
         setupApplicationLoop(this);
     }
 
