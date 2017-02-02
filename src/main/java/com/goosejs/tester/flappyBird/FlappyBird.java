@@ -39,7 +39,7 @@ public class FlappyBird extends LoopingApplicationBase
         batch = new SpriteBatch();
 
         bird.init();
-        //pipe.init();
+        pipe.init();
 
         return true;
     }
@@ -54,6 +54,9 @@ public class FlappyBird extends LoopingApplicationBase
         bird.update();
         if (window.getKeyboardCallback().isKeyJustDown(GLFW.GLFW_KEY_SPACE))
             bird.flap();
+
+        pipe.draw(batch);
+        pipe.update();
 
         batch.flushQueue();
 

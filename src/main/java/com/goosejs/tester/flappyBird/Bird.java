@@ -16,14 +16,14 @@ public class Bird
 
     public void init()
     {
-        primitive = new TexturedPrimitive2D(new Texture("flappy/bird.png"), 75, 75);
+        primitive = new TexturedPrimitive2D(new Texture("flappy/bird.png"), 50, 50);
         x = 100;
         y = 700;
     }
 
     public void draw(SpriteBatch batch)
     {
-        batch.draw(primitive, x, y, 0, -(yFall * 50)); // TODO: Make bird rotate as he falls / flaps
+        batch.draw(primitive, x, y, 0, -(yFall * 5));
     }
 
     public void update()
@@ -34,6 +34,6 @@ public class Bird
 
     public void flap()
     {
-        yFall = -5;
+        yFall = -4;
     }
 }
