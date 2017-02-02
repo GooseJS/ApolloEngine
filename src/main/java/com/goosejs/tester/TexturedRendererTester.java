@@ -2,6 +2,7 @@ package com.goosejs.tester;
 
 import com.goosejs.apollo.backend.lwjgl.glfw.ExtendableKeyboardCallback;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
+import com.goosejs.apollo.backend.lwjgl.opengl.GlobalPerspectiveMatrices;
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
@@ -21,6 +22,7 @@ public class TexturedRendererTester
     public void start()
     {
         window = new Window(800, 600, "TexturedRendererTest", false, false);
+        GlobalPerspectiveMatrices.update2DPerspectiveMatrix(0, 600, 800, 0);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
 
@@ -31,26 +33,28 @@ public class TexturedRendererTester
 
         float renderX = 0;
         float renderY = 0;
-        float renderZ = -10;
+        float renderZ = 0;
 
         while (!window.shouldClose())
         {
             GL11.glClearColor(1, 0, 0, 1);
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
             batch.draw(texturedPrimitive, renderX, renderY, renderZ);
-            renderZ -= 0.1f;
+
+            if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_Q))
+                renderZ -= 0.5f;
 
             batch.flushQueue();
 
             if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_W))
-                renderY -= 5;
+                renderY++;
             if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_S))
-                renderY += 5;
+                renderY--;
             if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_A))
-                renderX -= 5;
+                renderX--;
             if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_D))
-                renderX += 5;
+                renderX++;
 
             window.pollEvents();
             window.swapBuffers();

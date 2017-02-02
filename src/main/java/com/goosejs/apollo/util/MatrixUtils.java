@@ -15,11 +15,14 @@ public class MatrixUtils
 
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale)
     {
-        transformationMatrix.translation(translation);
-        transformationMatrix.rotateXYZ((float)Math.toRadians(rx), (float)Math.toRadians(ry), (float)Math.toRadians(rz));
-        transformationMatrix.scale(scale);
-        transformationMatrix.scale(scale);
+        createTransformationMatrix(translation, rx, ry, rz, scale, transformationMatrix);
         return transformationMatrix;
+    }
+
+    public static void createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale, Matrix4f dest)
+    {
+        dest.identity();
+        dest.translation(translation.x, translation.y, translation.z).rotateX((float)Math.toRadians(rx)).rotateY((float)Math.toRadians(ry)).rotateZ((float)Math.toRadians(rz)).scale(scale);
     }
 
     public static Matrix4f createOrthoMatrix(float left, float right, float top, float bottom, float near, float far)

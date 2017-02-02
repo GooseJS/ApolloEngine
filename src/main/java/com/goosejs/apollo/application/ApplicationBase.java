@@ -26,4 +26,6 @@ public abstract class ApplicationBase
      * @return if postInit was successful
      * */
     public boolean postInit() { return true; }
+
+    public void shutdown() {}
 }

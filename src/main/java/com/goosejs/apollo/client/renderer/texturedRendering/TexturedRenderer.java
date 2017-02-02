@@ -19,7 +19,10 @@ public class TexturedRenderer
     {
         this.texturedShader = new TexturedShader();
         texturedShader.useProgram();
-        texturedShader.loadPerspectiveMatrix(GlobalPerspectiveMatrices.getGlobal2DPerspectiveMatrix()); // TODO: Global perpsective matrix
+        if (GlobalPerspectiveMatrices.has2DBeenInit())
+            texturedShader.loadPerspectiveMatrix(GlobalPerspectiveMatrices.getGlobal2DPerspectiveMatrix());
+        else
+            throw new RuntimeException("GlobalPerspectiveMatrices.update2DPerspectiveMatrix() must be called before creating a TexturedRenderer!");
         texturedShader.stopUsingProgram();
     }
 

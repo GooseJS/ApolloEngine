@@ -46,6 +46,16 @@ public class GlobalPerspectiveMatrices
         if (perspectiveMatrix3DHooks != null) perspectiveMatrix3DHooks.forEach(hook -> hook.onMatrixChange(fovy, aspect, zNear, zFar));
     }
 
+    public static boolean has2DBeenInit()
+    {
+        return global2DPerspectiveMatrix != null;
+    }
+
+    public static boolean has3DBeenInit()
+    {
+        return global3DPerspectiveMatrix != null;
+    }
+
     public interface OnMatrixChange
     {
         void onMatrixChange(float x0, float y0, float x1, float y1);

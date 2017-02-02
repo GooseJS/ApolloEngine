@@ -18,11 +18,25 @@ public class SpriteBatch
 
     public SpriteBatch()
     {
-        GlobalPerspectiveMatrices.update2DPerspectiveMatrix(0, 0, 0, 0);
         renders = new HashMap<>();
-        renderer = new TexturedRenderer();
+
+        try
+        {
+            renderer = new TexturedRenderer();
+        }
+        catch (RuntimeException e)
+        {
+            if (e.getLocalizedMessage().equals("GlobalPerspectiveMatrices.update2DPerspectiveMatrix() must be called before creating a TexturedRenderer!"))
+            {
+                throw new RuntimeException("GlobalPerspectiveMatrices.update2DPerspectiveMatrix() must be called before creating a SpriteBatch!");
+            }
+            else
+            {
+                throw e;
+            }
+        }
         //renderer.loadPerspectiveMatrix(MatrixUtils.createPerspectiveMatrix(180f, 800f / 600f, -1, 1000));
-        renderer.loadPerspectiveMatrix(createProjectionMatrix());
+        //renderer.loadPerspectiveMatrix(createProjectionMatrix());
     }
 
     private Matrix4f createProjectionMatrix()
