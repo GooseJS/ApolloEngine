@@ -1,5 +1,6 @@
 package com.goosejs.apollo.client.renderer.font;
 
+import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.*;
 import com.goosejs.apollo.client.gui.elements.subelements.GuiString;
 import com.goosejs.apollo.util.ApolloBufferUtils;
@@ -75,6 +76,16 @@ public class TrueTypeFontRenderer
     public TrueTypeFontRenderer(String fontFile, float scale, float additionalFontSpacing)
     {
         this(fontFile, scale, additionalFontSpacing, 0, 0, 800, 600);
+    }
+
+    public TrueTypeFontRenderer(String fontFile, float scale, Window window)
+    {
+        this(fontFile, scale, 0, window);
+    }
+
+    public TrueTypeFontRenderer(String fontFile, float scale, float additionalFontSpacing, Window window)
+    {
+        this(fontFile, scale, additionalFontSpacing, 0, 0, window.getWidth(), window.getHeight());
     }
 
     public TrueTypeFontRenderer(String fontFile, float scale, float additionalFontSpacing, int x0, int y0, int x1, int y1)

@@ -6,15 +6,21 @@ import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 public class Paddle
 {
 
-    private static final TexturedPrimitive2D primitive = new TexturedPrimitive2D(new Texture("pong/paddle.png"), 25, 100);
+    private static final float width = 25;
+    private static final float height = 100;
+
+    private static final TexturedPrimitive2D primitive = new TexturedPrimitive2D(new Texture("pong/paddle.png"), width, height);
 
     private float x;
     private float y;
 
+    public Paddle() {
+    }
+
     public Paddle(float x)
     {
         this.x = x;
-        this.y = 0;
+        this.y = 300;
     }
 
     public void draw(SpriteBatch batch)
@@ -24,17 +30,27 @@ public class Paddle
 
     public void moveUp()
     {
-        if(y<=600)
-        {
+        if(y <= 595)
             y += 5;
-        }
+
     }
 
     public void moveDown()
     {
-        if(y>=0)
-        {
+        if(y >= 5)
             y -= 5;
-        }
+
     }
+
+    public float getX()
+    {
+        return x;
+    }
+    public float getY()
+    {
+        return y;
+    }
+
+    public float getWidth() { return width; }
+    public float getHeight() { return height; }
 }
