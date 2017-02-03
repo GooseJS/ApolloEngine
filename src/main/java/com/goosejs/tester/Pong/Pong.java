@@ -29,20 +29,22 @@ public class Pong extends LoopingApplicationBase
         pong.setupApplicationLoop(pong);
     }
 
+    @Override
     public boolean init()
     {
         window = new Window(1200,700,"pong",false,false);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
 
-        fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf", 30f, window);
-
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
         leftPaddle = new Paddle(20);
         rightPaddle = new Paddle(1155);
-        batch  = new SpriteBatch();
         ball = new Ball(600,350,-5,0);
+
+        fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf", 50f);
+
+        batch  = new SpriteBatch();
         return true;
     }
 
@@ -59,7 +61,7 @@ public class Pong extends LoopingApplicationBase
 
         batch.flushQueue();
 
-       // fontRenderer.drawString(100, 100, "LEDELELELELELELELELELELE");
+        fontRenderer.drawString(5, 5, "LEDELELELELELELELELELELE");
 
         if (!window.update())
             getApplicationLoop().stopLoop();
