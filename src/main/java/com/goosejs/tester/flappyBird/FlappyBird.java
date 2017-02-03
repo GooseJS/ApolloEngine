@@ -23,6 +23,7 @@ public class FlappyBird extends LoopingApplicationBase
     private Window window;
     private Bird bird;
     private Pipe pipe;
+    private Pipe secondPipe;
 
     private TrueTypeFontRenderer fontRenderer;
 
@@ -43,12 +44,14 @@ public class FlappyBird extends LoopingApplicationBase
 
         bird = new Bird();
         pipe = new Pipe();
+        secondPipe = new Pipe();
         fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf", 50f);
 
         batch = new SpriteBatch();
 
         bird.init();
-        pipe.init();
+        pipe.init(800);
+        secondPipe.init(1200);
 
         return true;
     }
@@ -68,6 +71,8 @@ public class FlappyBird extends LoopingApplicationBase
             getApplicationLoop().stopLoop();
     }
 
+    private int waitTime = 65;
+
     public void lostGame()
     {
         String formatedString = String.format("Final Score: %d", score);
@@ -75,11 +80,15 @@ public class FlappyBird extends LoopingApplicationBase
         fontRenderer.drawString((800f / 2f) - (fontRenderer.getStringWidth(formatedString) / 2f), 240, formatedString);
         fontRenderer.drawString((800f / 2f) - (fontRenderer.getStringWidth("Press Space to Restart.") / 2f), 280, "Press Space to Restart.");
 
-        if (window.getKeyboardCallback().isKeyJustDown(GLFW.GLFW_KEY_SPACE))
+        if (waitTime >= 0)  waitTime--;
+
+        if (window.getKeyboardCallback().isKeyJustDown(GLFW.GLFW_KEY_SPACE) && waitTime < 0)
         {
             score = 0;
             bird.reset();
             pipe.reset(800);
+            secondPipe.reset(1200);
+            waitTime = 65;
             lost = false;
         }
     }
@@ -100,7 +109,28 @@ public class FlappyBird extends LoopingApplicationBase
             lost = true;
 
         if (pipe.hasPassedX(100))
-            score++;
+        {
+            if (bird.getY() > 600)
+                lost = true;
+            else
+                score++;
+        }
+
+        secondPipe.update();
+        secondPipe.draw(batch);
+        if (secondPipe.outsideOfScreen())
+            secondPipe.reset(800);
+
+        if (bird.checkCollision(secondPipe))
+            lost = true;
+
+        if (secondPipe.hasPassedX(100))
+        {
+            if (bird.getY() > 600)
+                lost = true;
+            else
+                score++;
+        }
 
         batch.flushQueue();
 

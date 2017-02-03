@@ -12,8 +12,8 @@ public class Pipe
 
     private final float gapHeight = 150;
     private final float primitiveWidth = 100;
-    private final float primitiveHeight = 400;
-    private final float speed = 4;
+    private final float primitiveHeight = 800;
+    private final float speed = 3f;
 
     private TexturedPrimitive2D bottomPrimitive;
     private TexturedPrimitive2D topPrimitive;
@@ -25,11 +25,11 @@ public class Pipe
 
     boolean hasPassedX;
 
-    public void init()
+    public void init(float x)
     {
         bottomPrimitive = new TexturedPrimitive2D(texture, primitiveWidth, primitiveHeight);
         topPrimitive = new TexturedPrimitive2D(texture, primitiveWidth, primitiveHeight, TexturedPrimitive2D.UPSIDE_DOWN_TEXTURE);
-        x = 500;
+        this.x = x;
         y = 200;
         aabbTop = new AABB2D(x, y + gapHeight, primitiveWidth, primitiveHeight);
         aabbBottom = new AABB2D(x, y - primitiveHeight, primitiveWidth, primitiveHeight);
@@ -56,7 +56,7 @@ public class Pipe
     public void reset(float x)
     {
         this.x = x;
-        this.y = 100 + ((float)Math.random() * 400f);
+        this.y = ((float)Math.random() * 400f);
         aabbTop.setX(x);
         aabbBottom.setX(x);
 
