@@ -52,14 +52,14 @@ public class Pong extends LoopingApplicationBase
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 
-//        if (!lost)
-//            playGame();
-//        else
-//            lostGame();
-//
-//        batch.flushQueue();
+        if (!lost)
+            playGame();
+        else
+            lostGame();
 
-        fontRenderer.drawString(100, 100, "LEDELELELELELELELELELELE");
+        batch.flushQueue();
+
+       // fontRenderer.drawString(100, 100, "LEDELELELELELELELELELELE");
 
         if (!window.update())
             getApplicationLoop().stopLoop();
