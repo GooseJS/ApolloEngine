@@ -51,6 +51,11 @@ public class Bird
         return CollisionUtils.testAABBAABB(pipe.getAABBTop(), aabb) || CollisionUtils.testAABBAABB(pipe.getAABBBottom(), aabb) || y < -10;
     }
 
+    public float getY()
+    {
+        return this.y;
+    }
+
     public void reset()
     {
         yFall = 0;
