@@ -70,7 +70,6 @@ public class Pong extends LoopingApplicationBase
         rightPaddle.draw(batch);
         ball.draw(batch);
         ball.update();
-        //ball.checkcollision(brickBreakPaddle);
 
         if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_W))
             leftPaddle.moveUp();

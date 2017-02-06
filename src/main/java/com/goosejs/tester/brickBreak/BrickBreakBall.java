@@ -5,7 +5,7 @@ import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 import org.joml.Vector2f;
 
-public class brickBreakBall
+public class BrickBreakBall
 {
     private final float maxXVelocity = 5f;
 
@@ -16,7 +16,7 @@ public class brickBreakBall
 
     private float diameter = 15;
 
-    public brickBreakBall(float x, float y, float xvel, float yvel)
+    public BrickBreakBall(float x, float y, float xvel, float yvel)
     {
         this.position = new Vector2f(x, y);
         this.velocity = new Vector2f(xvel, yvel);
@@ -33,23 +33,23 @@ public class brickBreakBall
         if (position.x < 0 || position.x > 1200) velocity.x = -velocity.x;
     }
 
-    public void checkcollision(brickBreakPaddle brickBreakPaddle)
+    public void checkcollision(BrickBreakPaddle BrickBreakPaddle)
     {
-        if ((position.x < brickBreakPaddle.getX() + brickBreakPaddle.getWidth()))
+        if ((position.x < BrickBreakPaddle.getX() + BrickBreakPaddle.getWidth()))
         {
-            if ((position.x > brickBreakPaddle.getX()) && (position.y < (brickBreakPaddle.getY() + brickBreakPaddle.getHeight())))
+            if ((position.x > BrickBreakPaddle.getX()) && (position.y < (BrickBreakPaddle.getY() + BrickBreakPaddle.getHeight())))
             {
                 velocity.y = -velocity.y;
-                velocity.x += getXVelocity(brickBreakPaddle);
+                velocity.x += getXVelocity(BrickBreakPaddle);
             }
         }
 
     }
 
-    private float getXVelocity(brickBreakPaddle brickBreakPaddle)
+    private float getXVelocity(BrickBreakPaddle BrickBreakPaddle)
     {
-        float ballCenter = position.x - brickBreakPaddle.getX() + (diameter / 2f);
-        float percentage = ballCenter / brickBreakPaddle.getWidth();
+        float ballCenter = position.x - BrickBreakPaddle.getX() + (diameter / 2f);
+        float percentage = ballCenter / BrickBreakPaddle.getWidth();
 
         if (percentage > 0.5f)
             return maxXVelocity * ((percentage - 0.5f) * 2f);
