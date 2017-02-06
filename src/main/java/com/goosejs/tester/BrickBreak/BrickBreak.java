@@ -1,4 +1,4 @@
-package com.goosejs.tester.Pong;
+package com.goosejs.tester.BrickBreak;
 
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.DefaultApplicationLoop;
@@ -10,11 +10,10 @@ import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-public class Pong extends LoopingApplicationBase
+public class BrickBreak extends LoopingApplicationBase
 {
     private Window window;
-    private Paddle leftPaddle;
-    private Paddle rightPaddle;
+    private Paddle Paddle;
     private Ball ball;
     private SpriteBatch batch;
 
@@ -24,24 +23,22 @@ public class Pong extends LoopingApplicationBase
 
     public static void main(String[] args)
     {
-        Pong pong = new Pong();
-        pong.setApplicationLoop(new DefaultApplicationLoop());
-        pong.setupApplicationLoop(pong);
+        BrickBreak brickBreak = new BrickBreak();
+        brickBreak.setApplicationLoop(new DefaultApplicationLoop());
+        brickBreak.setupApplicationLoop(brickBreak);
     }
 
     @Override
     public boolean init()
     {
-        window = new Window(1200,700,"pong",false,false);
+        window = new Window(1200,700,"brick break",false,false);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
-        leftPaddle = new Paddle(20);
-        rightPaddle = new Paddle(1155);
-        ball = new Ball(600,350,-10,-10);
-
+        Paddle = new Paddle(20);
+        ball = new Ball(600,350,0,-5);
 
         batch  = new SpriteBatch();
         return true;
@@ -55,10 +52,9 @@ public class Pong extends LoopingApplicationBase
 
         if (!lost)
             playGame();
-        else
-            lostGame();
 
         batch.flushQueue();
+
 
         if (!window.update())
             getApplicationLoop().stopLoop();
@@ -66,31 +62,16 @@ public class Pong extends LoopingApplicationBase
 
     private void playGame()
     {
-        leftPaddle.draw(batch);
-        rightPaddle.draw(batch);
+        Paddle.draw(batch);
         ball.draw(batch);
         ball.update();
-        ball.checkcollision(leftPaddle, rightPaddle);
+        ball.checkcollision(Paddle);
 
-        if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_W))
-            leftPaddle.moveUp();
-        else if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_S))
-            leftPaddle.moveDown();
-
-        if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_UP))
-            rightPaddle.moveUp();
-        else if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_DOWN))
-            rightPaddle.moveDown();
+        if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_RIGHT))
+            Paddle.moveRight();
+        else if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_LEFT))
+            Paddle.moveLeft();
     }
 
-    private void lostGame()
-    {
-        System.out.println("haha you fuckomg lost ypu umb fuck");
-        if (lost)
-            System.out.print("i wish for death");
-        else
-            System.out.println("gay ass nigga");
-
-    }
 
 }
