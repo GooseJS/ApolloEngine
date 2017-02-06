@@ -2,7 +2,8 @@ package com.goosejs.apollo.application.applicationLoop;
 
 import com.goosejs.apollo.application.ApplicationInitializer;
 import com.goosejs.apollo.application.LoopingApplicationBase;
-import com.goosejs.apollo.backend.lwjgl.glfw.Window;
+import com.goosejs.apollo.backend.lwjgl.glfw.*;
+import com.goosejs.apollo.backend.lwjgl.opengl.GlobalPerspectiveMatrices;
 import com.goosejs.apollo.state.StateManager;
 import com.goosejs.apollo.util.Logger;
 
@@ -41,6 +42,12 @@ public class WindowApplicationLoop implements IApplicationLoop
         running = true;
 
         window.createWindow();
+        window.setKeyboardCallback(new ExtendableKeyboardCallback());
+        window.setCharacterCallback(new ExtendableCharacterCallback());
+        window.setMouseButtonCallback(new ExtendableMouseButtonCallback());
+        window.setCursorPosCallback(new ExtendableCursorPosCallback());
+
+        GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
         ApplicationInitializer.initApplicationAndPlugins(applicationBase);
 
