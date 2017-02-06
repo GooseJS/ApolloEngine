@@ -2,6 +2,9 @@ package com.goosejs.apollo.state;
 
 public abstract class State
 {
+
+    private StateManager stateManager;
+
     public final void initialize()
     {
         onInitialize();
@@ -33,20 +36,37 @@ public abstract class State
     public abstract void update();
     public abstract void draw();
 
-    public State setState(State state)
+    public void usingStateManager(StateManager stateManager)
     {
-        // TODO: Implement this
+        this.stateManager = stateManager;
+    }
+
+    protected State setState(State state)
+    {
+        if (checkStateManager())
+        {
+            State poppedState = popState();
+            pushState(state);
+            return poppedState;
+        }
+
         return null;
     }
 
-    public void pushState(State state)
+    protected void pushState(State state)
     {
-        // TODO: Implement this
+        if (checkStateManager()) stateManager.pushState(state);
     }
 
-    public State popState()
+    protected State popState()
     {
-        //TODO: Implement this
+        if (checkStateManager()) return stateManager.popState();
         return null;
+    }
+
+    private boolean checkStateManager()
+    {
+        if (stateManager != null) return true;
+        throw new RuntimeException("Cannot use StateManager utility functions without first calling State.usingStateManager!");
     }
 }

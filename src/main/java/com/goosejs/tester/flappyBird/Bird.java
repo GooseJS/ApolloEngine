@@ -16,7 +16,8 @@ public class Bird
     private float width = 50;
     private float height = 50;
 
-    private float gravity = 0.2f;
+    private float jumpHeight = 6;
+    private float gravity = 0.4f;
     private float yFall = 0;
 
     private AABB2D aabb;
@@ -43,7 +44,7 @@ public class Bird
 
     public void flap()
     {
-        yFall = -4;
+        yFall = -jumpHeight;
     }
 
     public boolean checkCollision(Pipe pipe)

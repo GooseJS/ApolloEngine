@@ -31,6 +31,7 @@ public class StateManager
         if (!states.isEmpty())
             states.peek().deactivate();
         states.push(state);
+        states.peek().usingStateManager(this);
         states.peek().initialize();
         states.peek().activate();
     }

@@ -2,10 +2,11 @@ package com.goosejs.apollo.application.applicationLoop;
 
 import com.goosejs.apollo.application.ApplicationInitializer;
 import com.goosejs.apollo.application.LoopingApplicationBase;
+import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.state.StateManager;
 import com.goosejs.apollo.util.Logger;
 
-public class DefaultApplicationLoop implements IApplicationLoop
+public class WindowApplicationLoop implements IApplicationLoop
 {
     private LoopingApplicationBase applicationBase;
 
@@ -13,6 +14,13 @@ public class DefaultApplicationLoop implements IApplicationLoop
 
     private boolean running;
     private boolean usingStateManager;
+
+    private Window window;
+
+    public WindowApplicationLoop(int windowWidth, int windowHeight, String windowTitle , boolean fullscreen, boolean resizable)
+    {
+        window = new Window(windowWidth, windowHeight, windowTitle, fullscreen, resizable);
+    }
 
     @Override
     public void setApplicationBase(LoopingApplicationBase applicationBase)
@@ -32,6 +40,8 @@ public class DefaultApplicationLoop implements IApplicationLoop
 
         running = true;
 
+        window.createWindow();
+
         ApplicationInitializer.initApplicationAndPlugins(applicationBase);
 
         Logger.info("Starting application loop.");
@@ -43,6 +53,12 @@ public class DefaultApplicationLoop implements IApplicationLoop
                 stateManager.update(); // TODO: Look into splitting these up / also doing something with the ApplicationBase
                 stateManager.draw();
             }
+
+            if (window.shouldClose())
+                stopLoop();
+
+            window.pollEvents();
+            window.swapBuffers();
         }
         if (usingStateManager)
             stateManager.shutdown();
@@ -67,4 +83,10 @@ public class DefaultApplicationLoop implements IApplicationLoop
         usingStateManager = true;
         this.stateManager = stateManager;
     }
+
+    public Window getWindow()
+    {
+        return this.window;
+    }
+
 }

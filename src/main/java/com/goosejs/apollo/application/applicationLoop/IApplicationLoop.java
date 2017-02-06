@@ -1,6 +1,7 @@
 package com.goosejs.apollo.application.applicationLoop;
 
 import com.goosejs.apollo.application.LoopingApplicationBase;
+import com.goosejs.apollo.state.StateManager;
 
 /**
  * Covers the basic functions of an application loop
@@ -19,4 +20,7 @@ public interface IApplicationLoop
 
     /** Will return the delta time for the current loop */
     double getDeltaTime();
+
+    /** Set the state manager */
+    void useStateManager(StateManager stateManager);
 }
