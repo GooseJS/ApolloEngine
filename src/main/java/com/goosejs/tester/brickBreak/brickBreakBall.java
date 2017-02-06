@@ -1,13 +1,13 @@
-package com.goosejs.tester.Pong;
+package com.goosejs.tester.brickBreak;
 
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 import org.joml.Vector2f;
 
-public class Ball
+public class brickBreakBall
 {
-    private final float maxXVelocity = 5;
+    private final float maxXVelocity = 5f;
 
     private TexturedPrimitive2D primitive;
 
@@ -16,7 +16,7 @@ public class Ball
 
     private float diameter = 15;
 
-    public Ball(float x,float y,float xvel,float yvel)
+    public brickBreakBall(float x, float y, float xvel, float yvel)
     {
         this.position = new Vector2f(x, y);
         this.velocity = new Vector2f(xvel, yvel);
@@ -28,33 +28,38 @@ public class Ball
     {
         position.add(velocity);
 
-        //check if hit wall
-        if (position.y < 0) velocity.y = -velocity.y;
+        if (position.y <= 0) respawn();
         if ((position.y + diameter) > 700) velocity.y = -velocity.y;
+        if (position.x < 0 || position.x > 1200) velocity.x = -velocity.x;
     }
 
-    public void checkcollision(Paddle paddle)
+    public void checkcollision(brickBreakPaddle brickBreakPaddle)
     {
-        if ((position.x < paddle.getX() + paddle.getWidth()))
+        if ((position.x < brickBreakPaddle.getX() + brickBreakPaddle.getWidth()))
         {
-            if ((position.x > paddle.getX()) && (position.y < (paddle.getY() + paddle.getHeight())))
+            if ((position.x > brickBreakPaddle.getX()) && (position.y < (brickBreakPaddle.getY() + brickBreakPaddle.getHeight())))
             {
-                velocity.x = -velocity.x;
-                velocity.y = getXVelocity(paddle);
+                velocity.y = -velocity.y;
+                velocity.x += getXVelocity(brickBreakPaddle);
             }
         }
 
     }
 
-    private float getXVelocity(Paddle paddle)
+    private float getXVelocity(brickBreakPaddle brickBreakPaddle)
     {
-        float ballCenter = position.x - paddle.getX() + (diameter / 2f);
-        float percentage = ballCenter / paddle.getHeight();
+        float ballCenter = position.x - brickBreakPaddle.getX() + (diameter / 2f);
+        float percentage = ballCenter / brickBreakPaddle.getWidth();
 
         if (percentage > 0.5f)
             return maxXVelocity * ((percentage - 0.5f) * 2f);
         else
             return -(maxXVelocity * (percentage * 2f));
+    }
+    public void respawn()
+    {
+        position.x = 1200/2 + diameter;
+        position.y = 700/2 + diameter;
     }
 
     public float getX()

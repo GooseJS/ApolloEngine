@@ -1,5 +1,6 @@
 package com.goosejs.tester.Pong;
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
+import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 
@@ -30,15 +31,15 @@ public class Paddle
 
     public void moveUp()
     {
-        if(y <= 595)
-            y += 5;
+        if(y <= 580)
+            y += 20;
 
     }
 
     public void moveDown()
     {
-        if(y >= 5)
-            y -= 5;
+        if(y >= 20)
+            y -= 20;
 
     }
 

@@ -1,4 +1,4 @@
-package com.goosejs.tester.BrickBreak;
+package com.goosejs.tester.brickBreak;
 
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.DefaultApplicationLoop;
@@ -10,11 +10,11 @@ import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-public class BrickBreak extends LoopingApplicationBase
+public class brickBreak extends LoopingApplicationBase
 {
     private Window window;
-    private Paddle Paddle;
-    private Ball ball;
+    private com.goosejs.tester.brickBreak.brickBreakPaddle brickBreakPaddle;
+    private com.goosejs.tester.brickBreak.brickBreakBall brickBreakBall;
     private SpriteBatch batch;
 
     private boolean lost = false;
@@ -23,7 +23,7 @@ public class BrickBreak extends LoopingApplicationBase
 
     public static void main(String[] args)
     {
-        BrickBreak brickBreak = new BrickBreak();
+        brickBreak brickBreak = new brickBreak();
         brickBreak.setApplicationLoop(new DefaultApplicationLoop());
         brickBreak.setupApplicationLoop(brickBreak);
     }
@@ -37,10 +37,12 @@ public class BrickBreak extends LoopingApplicationBase
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
-        Paddle = new Paddle(20);
-        ball = new Ball(600,350,0,-5);
+        brickBreakPaddle = new brickBreakPaddle(20, fontRenderer);
+        brickBreakBall = new brickBreakBall(600,350,0,-5);
 
         batch  = new SpriteBatch();
+
+        fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf", 50f, window);
         return true;
     }
 
@@ -55,22 +57,21 @@ public class BrickBreak extends LoopingApplicationBase
 
         batch.flushQueue();
 
-
         if (!window.update())
             getApplicationLoop().stopLoop();
     }
 
     private void playGame()
     {
-        Paddle.draw(batch);
-        ball.draw(batch);
-        ball.update();
-        ball.checkcollision(Paddle);
+        brickBreakPaddle.draw(batch);
+        brickBreakBall.draw(batch);
+        brickBreakBall.update();
+        brickBreakBall.checkcollision(brickBreakPaddle);
 
         if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_RIGHT))
-            Paddle.moveRight();
-        else if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_LEFT))
-            Paddle.moveLeft();
+            brickBreakPaddle.moveRight();
+        if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_LEFT))
+            brickBreakPaddle.moveLeft();
     }
 
 
