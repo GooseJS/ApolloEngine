@@ -49,7 +49,7 @@ public class VAO
     }
 
     /**
-     * @see org.lwjgl.opengl.GL20#glVertexAttribPointer(int, int, int, boolean, int, long);
+     * see GL20#glVertexAttribPointer(int, int, int, boolean, int, long);
      */
     public static void vertexAttribPointer(int index, int size, int type)
     {
@@ -57,7 +57,7 @@ public class VAO
     }
 
     /**
-     * @see org.lwjgl.opengl.GL20#glVertexAttribPointer(int, int, int, boolean, int, long);
+     * see GL20#glVertexAttribPointer(int, int, int, boolean, int, long);
      */
     public static void vertexAttribPointer(int index, int size, int type, boolean normalized, int stride, long pointerOffset)
     {
@@ -65,7 +65,7 @@ public class VAO
     }
 
     /**
-     * @see org.lwjgl.opengl.GL20#glEnableVertexAttribArray(int)
+     * see GL20#glEnableVertexAttribArray(int)
      */
     public static void enableAttribArray(int ... attribArray)
     {
@@ -73,7 +73,7 @@ public class VAO
     }
 
     /**
-     * @see org.lwjgl.opengl.GL20#glDisableVertexAttribArray(int)
+     * see GL20#glDisableVertexAttribArray(int)
      */
     public static void disableAttribArray(int ... attribArray)
     {
