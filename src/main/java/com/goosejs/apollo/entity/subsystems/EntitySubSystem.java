@@ -53,7 +53,7 @@ public abstract class EntitySubSystem<T extends EntitySubSystem>
 
     /**
      * @see #parentEntity
-     * @implNote this should be called AS SOON AS THE SUBSYSTEM IS ADDED TO AN ENTITY TO INSURE IT IS NOT NULL
+     * NOTE: This should be called AS SOON AS THE SUBSYSTEM IS ADDED TO AN ENTITY TO INSURE IT IS NOT NULL
      *           if this is null you're gonna have a bad time...
      */
     public final void setParentEntity(Entity parentEntity)

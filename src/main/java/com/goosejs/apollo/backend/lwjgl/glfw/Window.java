@@ -17,6 +17,13 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class Window
 {
 
+    private static Window mainWindow;
+
+    public static Window getWindow()
+    {
+        return mainWindow;
+    }
+
     /**
      * TO-DO List
      * TODO: Create a "change display mode" function to allow resizing and fullscreen on the fly
@@ -121,6 +128,7 @@ public class Window
             GL11.glViewport(0, 0, width, height);
 
             init = true;
+            mainWindow = this;
         }
     }
 
