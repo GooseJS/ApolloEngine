@@ -16,8 +16,7 @@ public class BrickBreak extends LoopingApplicationBase
     private BrickBreakPaddle brickBreakPaddle;
     private BrickBreakBall brickBreakBall;
     private SpriteBatch batch;
-    private Brick Brick;
-    Brick[] bricks = new Brick[10];
+    Brick[] bricks;
 
     private TrueTypeFontRenderer fontRenderer;
 
@@ -39,7 +38,9 @@ public class BrickBreak extends LoopingApplicationBase
 
         brickBreakPaddle = new BrickBreakPaddle(20);
         brickBreakBall = new BrickBreakBall(600,350,0,-5);
-        for(int i = 0; i < 10; i++)
+
+        bricks = new Brick[10];
+        for(int i = 0; i < bricks.length; i++)
         {
             bricks[i] = new Brick((20+(i*120)),300f, 100f, 20f);
         }
@@ -70,7 +71,7 @@ public class BrickBreak extends LoopingApplicationBase
         brickBreakPaddle.draw(batch);
         brickBreakBall.draw(batch);
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < bricks.length; i++)
         {
             bricks[i].draw(batch);
         }
