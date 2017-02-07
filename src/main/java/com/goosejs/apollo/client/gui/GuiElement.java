@@ -30,6 +30,8 @@ public abstract class GuiElement
 
     private String identifier;
 
+    private float fontScale = DEFAULT_FONT_SCALE;
+
     public GuiElement(int x, int y, int width, int height)
     {
         this.x = x;
@@ -41,6 +43,7 @@ public abstract class GuiElement
     public final void drawStart()
     {
         FONT_RENDERER.loadOrthoMatrix(0, 0, width, height);
+        FONT_RENDERER.setFontScale(fontScale);
         Tessellator.getInstance().loadOrthoMatrix(0, 0, width, height);
         GL11.glViewport(x, (Window.getWindow().getHeight() - height - y), width, height); // TODO: Add support for retina (THIS SHOULD BE TIMES 2 FOR RETINA
         onDrawStart();
@@ -56,6 +59,7 @@ public abstract class GuiElement
     public final void drawEnd()
     {
         onDrawEnd();
+        resetFontScale();
     }
 
     public final String getIdentifier()
@@ -75,7 +79,7 @@ public abstract class GuiElement
 
     public final void setFontScale(float fontScale)
     {
-        getFontRenderer().setFontScale(fontScale);
+        this.fontScale = fontScale;
     }
 
     public int getX()
