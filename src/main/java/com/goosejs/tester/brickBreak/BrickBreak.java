@@ -37,12 +37,14 @@ public class BrickBreak extends LoopingApplicationBase
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
         brickBreakPaddle = new BrickBreakPaddle(20);
-        brickBreakBall = new BrickBreakBall(600,350,0,-5);
+        brickBreakBall = new BrickBreakBall(600,150,0,-5);
 
-        bricks = new Brick[10];
+        bricks = new Brick[30];
         for(int i = 0; i < bricks.length; i++)
         {
-            bricks[i] = new Brick((20+(i*120)),300f, 100f, 20f);
+            bricks[i] = new Brick((20+(i*120)),400f, 100f, 20f);
+            bricks[i] = new Brick((20+(i*120)),450f, 100f, 20f);
+            bricks[i] = new Brick((20+(i*120)),500f, 100f, 20f);
         }
 
         batch  = new SpriteBatch();
