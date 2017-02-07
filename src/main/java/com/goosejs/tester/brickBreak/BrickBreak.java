@@ -13,11 +13,11 @@ import org.lwjgl.opengl.GL11;
 public class BrickBreak extends LoopingApplicationBase
 {
     private Window window;
-    private BrickBreakPaddle BrickBreakPaddle;
+    private brickBreakPaddle BrickBreakPaddle;
     private BrickBreakBall BrickBreakBall;
     private SpriteBatch batch;
-
-    private boolean lost = false;
+    private Brick Brick;
+    Brick[] bricks = new Brick[10];
 
     private TrueTypeFontRenderer fontRenderer;
 
@@ -31,14 +31,18 @@ public class BrickBreak extends LoopingApplicationBase
     @Override
     public boolean init()
     {
-        window = new Window(1200,700,"brick break",false,false);
+        window = new Window(1200,700,"Brick break",false,false);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
-        BrickBreakPaddle = new BrickBreakPaddle(20, fontRenderer);
+        BrickBreakPaddle = new brickBreakPaddle(20);
         BrickBreakBall = new BrickBreakBall(600,350,0,-5);
+        for(int i = 0; i < 10; i++)
+        {
+            bricks[i] = new Brick((20+(i*120)),300f, 100f, 20f);
+        }
 
         batch  = new SpriteBatch();
 
@@ -52,8 +56,7 @@ public class BrickBreak extends LoopingApplicationBase
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        if (!lost)
-            playGame();
+        playGame();
 
         batch.flushQueue();
 
@@ -63,10 +66,21 @@ public class BrickBreak extends LoopingApplicationBase
 
     private void playGame()
     {
+
         BrickBreakPaddle.draw(batch);
         BrickBreakBall.draw(batch);
+
+        for(int i = 0; i < 10; i++)
+        {
+            bricks[i].draw(batch);
+        }
+        for(int i = 0; i < 10; i++)
+        {
+            BrickBreakBall.checkCollisionBrick(Brick);
+        }
         BrickBreakBall.update();
-        BrickBreakBall.checkcollision(BrickBreakPaddle);
+        BrickBreakBall.checkCollisionPaddle(BrickBreakPaddle);
+
 
         if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_RIGHT))
             BrickBreakPaddle.moveRight();

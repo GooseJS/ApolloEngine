@@ -33,20 +33,43 @@ public class BrickBreakBall
         if (position.x < 0 || position.x > 1200) velocity.x = -velocity.x;
     }
 
-    public void checkcollision(BrickBreakPaddle BrickBreakPaddle)
+    public void checkCollisionPaddle(brickBreakPaddle BrickBreakPaddle)
     {
         if ((position.x < BrickBreakPaddle.getX() + BrickBreakPaddle.getWidth()))
         {
             if ((position.x > BrickBreakPaddle.getX()) && (position.y < (BrickBreakPaddle.getY() + BrickBreakPaddle.getHeight())))
             {
                 velocity.y = -velocity.y;
-                velocity.x += getXVelocity(BrickBreakPaddle);
+                velocity.x += getXVelocityPaddle(BrickBreakPaddle);
+            }
+        }
+
+    }
+    public void checkCollisionBrick(Brick Brick)
+    {
+        if ((position.x < Brick.getX() + Brick.getWidth()))
+        {
+            if ((position.x > Brick.getX()) && (position.y < (Brick.getY() + Brick.getHeight())))
+            {
+                velocity.y = -velocity.y;
+                velocity.x += getXVelocityBrick(Brick);
+                Brick.delete();
             }
         }
 
     }
 
-    private float getXVelocity(BrickBreakPaddle BrickBreakPaddle)
+    private float getXVelocityBrick(Brick Brick)
+    {
+        float ballCenter = position.x - Brick.getX() + (diameter / 2f);
+        float percentage = ballCenter / Brick.getWidth();
+
+        if (percentage > 0.5f)
+            return maxXVelocity * ((percentage - 0.5f) * 2f);
+        else
+            return -(maxXVelocity * (percentage * 2f));
+    }
+    private float getXVelocityPaddle(brickBreakPaddle BrickBreakPaddle)
     {
         float ballCenter = position.x - BrickBreakPaddle.getX() + (diameter / 2f);
         float percentage = ballCenter / BrickBreakPaddle.getWidth();
@@ -60,6 +83,11 @@ public class BrickBreakBall
     {
         position.x = 1200/2 + diameter;
         position.y = 700/2 + diameter;
+        changeVel(0,-5);
+    }
+    public void changeVel(float xvel, float yvel){
+        velocity.x = xvel;
+        velocity.y = yvel;
     }
 
     public float getX()
@@ -67,9 +95,26 @@ public class BrickBreakBall
         return position.x;
     }
 
+    public float getYVeloicty()
+    {
+        return velocity.y;
+    }
+    public float getXVeloicty()
+    {
+        return velocity.x;
+    }
+    public void setYVelocity(float yvel)
+    {
+        velocity.y = yvel;
+    }
+    public void setXVelocity(float xvel)
+    {
+        velocity.x = xvel;
+    }
     public void draw(SpriteBatch batch)
     {
         batch.draw(primitive, position.x, position.y);
     }
+
 
 }

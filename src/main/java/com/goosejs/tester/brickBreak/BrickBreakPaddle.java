@@ -5,7 +5,7 @@ import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 
-public class BrickBreakPaddle
+public class brickBreakPaddle
 {
 
     private static final float width = 200;
@@ -19,7 +19,7 @@ public class BrickBreakPaddle
 
     private float movementSpeed = 25;
 
-    public BrickBreakPaddle(float y, TrueTypeFontRenderer fontRenderer)
+    public brickBreakPaddle(float y)
     {
         this.x = 200;
         this.y = y;
