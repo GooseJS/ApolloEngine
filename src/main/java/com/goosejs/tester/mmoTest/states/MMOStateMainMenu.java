@@ -28,7 +28,10 @@ public class MMOStateMainMenu extends State
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(Window.getWindow());
 
         this.guiManager = new GuiManager(Window.getWindow());
-        guiManager.addGuiElement(new GuiButton("Start Game", () -> Logger.info("FAGGOT"), 10, 10, 100, Math.round(GuiElement.getFontRenderer().getFontHeight() + 10)));
+        GuiButton mainMenuButton = new GuiButton("Start Game", () -> Logger.info("FAGGOT"), 10, 10, 500, 0);
+        //mainMenuButton.setFontScale(40f);
+        mainMenuButton.setHeight(Math.round(GuiElement.getFontRenderer().getFontHeight() + 10));
+        guiManager.addGuiElement(mainMenuButton);
     }
 
     @Override

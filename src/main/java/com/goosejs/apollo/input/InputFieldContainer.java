@@ -59,25 +59,28 @@ public class InputFieldContainer extends CharacterInput
     @Override
     public void keyPressed(char rawCharacter, String rawString, boolean specialKey, int mods)
     {
-        String currentLine = getActiveInputField().getEditor().getCurrentLine();
-
-        Map<String, ArrayList<TypingInput.OnKeyTyped>> currentCommandWithoutMod = hookedCommands.get(rawString);
-
-        if (currentCommandWithoutMod != null)
+        if (getActiveInputField() != null)
         {
-            String modifier = "";
+            String currentLine = getActiveInputField().getEditor().getCurrentLine();
 
-            if ((mods & GLFW.GLFW_MOD_ALT) == GLFW.GLFW_MOD_ALT)
-                modifier = "ALT";
-            else if ((mods & GLFW.GLFW_MOD_SHIFT) == GLFW.GLFW_MOD_SHIFT)
-                modifier = "SHIFT";
-            else if ((mods & GLFW.GLFW_MOD_CONTROL) == GLFW.GLFW_MOD_CONTROL)
-                modifier = "CONTROL";
-            else if ((mods & GLFW.GLFW_MOD_SUPER) == GLFW.GLFW_MOD_SUPER)
-                modifier = "SUPER";
+            Map<String, ArrayList<TypingInput.OnKeyTyped>> currentCommandWithoutMod = hookedCommands.get(rawString);
 
-            ArrayList<TypingInput.OnKeyTyped> currentCommand = currentCommandWithoutMod.get(modifier);
-            if (currentCommand != null) currentCommand.forEach(command -> command.invoke(currentLine, this));
+            if (currentCommandWithoutMod != null)
+            {
+                String modifier = "";
+
+                if ((mods & GLFW.GLFW_MOD_ALT) == GLFW.GLFW_MOD_ALT)
+                    modifier = "ALT";
+                else if ((mods & GLFW.GLFW_MOD_SHIFT) == GLFW.GLFW_MOD_SHIFT)
+                    modifier = "SHIFT";
+                else if ((mods & GLFW.GLFW_MOD_CONTROL) == GLFW.GLFW_MOD_CONTROL)
+                    modifier = "CONTROL";
+                else if ((mods & GLFW.GLFW_MOD_SUPER) == GLFW.GLFW_MOD_SUPER)
+                    modifier = "SUPER";
+
+                ArrayList<TypingInput.OnKeyTyped> currentCommand = currentCommandWithoutMod.get(modifier);
+                if (currentCommand != null) currentCommand.forEach(command -> command.invoke(currentLine, this));
+            }
         }
     }
 

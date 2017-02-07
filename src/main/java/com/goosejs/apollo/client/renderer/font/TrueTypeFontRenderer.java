@@ -20,6 +20,8 @@ import org.lwjgl.system.MemoryUtil;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -30,15 +32,12 @@ public class TrueTypeFontRenderer
 {
     private FontShader fontShader;
 
-    private final float scale;
-
     private final STBTTAlignedQuad quad = STBTTAlignedQuad.malloc();
     private final FloatBuffer xb = MemoryUtil.memAllocFloat(1);
     private final FloatBuffer yb = MemoryUtil.memAllocFloat(1);
 
-    private STBTTPackedchar.Buffer chardata;
+    private final String fontFile;
 
-    private int fontTextureID;
     private int vaoID;
     private int texCoordID;
     private int vertexID;
@@ -60,6 +59,11 @@ public class TrueTypeFontRenderer
     private float efficientDrawB;
     private ArrayList<Float> efficientDrawVertices;
     private ArrayList<Float> efficientDrawTexCoords;
+
+    private Map<Float, ApolloFontInfo> fontSizes;
+    private boolean firstTimeSetup;
+
+    private ApolloFontInfo currentFontInfo;
 
     private boolean vaoBinding = true;
 
@@ -90,10 +94,11 @@ public class TrueTypeFontRenderer
 
     public TrueTypeFontRenderer(String fontFile, float scale, float additionalFontSpacing, int x0, int y0, int x1, int y1)
     {
-        this.scale = scale;
+        this.fontFile = fontFile;
         this.additionFontSpacing = additionalFontSpacing;
+        this.fontSizes = new HashMap<>();
         fontShader = new FontShader();
-        loadFonts(fontFile);
+        loadFont(scale);
         GlobalPerspectiveMatrices.add2DPerspectiveOnChange((x02, y02, x12, y12) -> windowResized((int)x12, (int)y12));
         this.originalX = x0;
         this.originalWidth = x1;
@@ -166,40 +171,60 @@ public class TrueTypeFontRenderer
         fontShader.stopUsingProgram();
     }
 
-    private void loadFonts(String fontFile)
+    private void loadFont(float scale)
     {
-        fontTextureID = Texture.createTexture();
-        chardata = STBTTPackedchar.malloc(128);
+        ApolloFontInfo fontInfo = new ApolloFontInfo();
+        fontInfo.scale = scale;
+        fontInfo.fontTextureID = Texture.createTexture();
+        fontInfo.chardata = STBTTPackedchar.malloc(128);
+        fontSizes.put(scale, fontInfo);
+        currentFontInfo = fontInfo;
 
         STBTTPackContext pc = STBTTPackContext.malloc();
 
         ByteBuffer ttf = IOUtils.fileToByteBuffer(fontFile, 160 * 1024);
         ByteBuffer bitmap = BufferUtils.createByteBuffer(512 * 512);
 
-        STBTruetype.stbtt_PackBegin(pc, bitmap, 512, 512, 0, 1);
+        STBTruetype.stbtt_PackBegin(pc, bitmap, 512, 512, 0, 2);
 
-        chardata.limit(127);
-        chardata.position(32);
-        STBTruetype.stbtt_PackSetOversampling(pc, 1, 1);
-        STBTruetype.stbtt_PackFontRange(pc, ttf, 0, scale, 32, chardata);
+        currentFontInfo.chardata.limit(127);
+        currentFontInfo.chardata.position(32);
+        STBTruetype.stbtt_PackSetOversampling(pc, 1, 1); // TODO: Possibly some oversampling for smaller font sizes ( < 20? )
+        STBTruetype.stbtt_PackFontRange(pc, ttf, 0, currentFontInfo.scale, 32, currentFontInfo.chardata);
 
-        chardata.clear();
+        currentFontInfo.chardata.clear();
         STBTruetype.stbtt_PackEnd(pc);
 
         Texture.useTexture(GL13.GL_TEXTURE0);
-        Texture.bindTexture(fontTextureID);
+        Texture.bindTexture(currentFontInfo.fontTextureID);
         Texture.setTextureData(GL11.GL_RED, 512, 512, bitmap);
         Texture.setTextureParameter(GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         Texture.setTextureParameter(GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         Texture.generateMipMap();
 
-        if (vaoBinding)
-            vaoID = VAO.createVAO();
-        VAO.bindVAO(vaoID);
-        vertexID = VBO.createVBO();
-        texCoordID = VBO.createVBO();
-        if (vaoBinding)
-            VAO.unbindVAO();
+        if (!firstTimeSetup)
+        {
+            if (vaoBinding)
+                vaoID = VAO.createVAO();
+            VAO.bindVAO(vaoID);
+            vertexID = VBO.createVBO();
+            texCoordID = VBO.createVBO();
+            if (vaoBinding)
+                VAO.unbindVAO();
+            firstTimeSetup = true;
+        }
+    }
+
+    public void setFontScale(float scale)
+    {
+        if (currentFontInfo.scale != scale)
+        {
+            currentFontInfo = fontSizes.get(scale);
+            if (currentFontInfo == null)
+            {
+                loadFont(scale);
+            }
+        }
     }
 
     public void drawString(float x, float y, String text)
@@ -255,13 +280,12 @@ public class TrueTypeFontRenderer
         if (drawing)
         {
             xb.put(0, x);
-            yb.put(0, (float) (y + (scale / 1.5)));
-            chardata.position(0);
-
+            yb.put(0, (float) (y + (currentFontInfo.scale / 1.5)));
+            currentFontInfo.chardata.position(0);
 
             for (int i = 0; i < text.length(); i++)
             {
-                STBTruetype.stbtt_GetPackedQuad(chardata, 512, 512, text.charAt(i), xb, yb, quad, false);
+                STBTruetype.stbtt_GetPackedQuad(currentFontInfo.chardata, 512, 512, text.charAt(i), xb, yb, quad, false);
                 GLUtils.addDataToArrayList(efficientDrawVertices, efficientDrawTexCoords,
                         quad.x0(), quad.y0(), quad.x1(), quad.y1(),
                         quad.s0(), quad.t0(), quad.s1(), quad.t1());
@@ -280,13 +304,13 @@ public class TrueTypeFontRenderer
 
             if (vaoBinding)
                 VAO.bindVAO(vaoID);
-            VAOUtils.storeDataInAttributeList(0, 2, 0, ApolloBufferUtils.createFloatBuffer(efficientDrawVertices));
-            VAOUtils.storeDataInAttributeList(1, 2, 0, ApolloBufferUtils.createFloatBuffer(efficientDrawTexCoords));
+            VAOUtils.storeDataInAttributeList(vertexID, 0, 2, 0, ApolloBufferUtils.createFloatBuffer(efficientDrawVertices));
+            VAOUtils.storeDataInAttributeList(texCoordID, 1, 2, 0, ApolloBufferUtils.createFloatBuffer(efficientDrawTexCoords));
 
             fontShader.useProgram();
             fontShader.loadColor(efficientDrawR, efficientDrawG, efficientDrawB);
             //fontShader.loadAlpha(a); TODO: Make this work
-            Texture.bindTexture(fontTextureID);
+            Texture.bindTexture(currentFontInfo.fontTextureID);
             VAO.enableAttribArray(0, 1);
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, efficientDrawVertices.size() / 2);
             VAO.disableAttribArray(0, 1);
@@ -303,16 +327,16 @@ public class TrueTypeFontRenderer
 
     public float getStringWidth(String text)
     {
-        /** TODO: Look into the efficiency of this, and possibly make it more efficient if need be */
+        // TODO: Look into the efficiency of this, and possibly make it more efficient if need be
         float currentWidth = 0f;
 
         xb.put(0, 0);
-        yb.put(0, (float) (0 + (scale / 1.5)));
-        chardata.position(0);
+        yb.put(0, (float) (0 + (currentFontInfo.scale / 1.5)));
+        currentFontInfo.chardata.position(0);
 
         for (int i = 0; i < text.length(); i++)
         {
-            STBTruetype.stbtt_GetPackedQuad(chardata, 512, 512, text.charAt(i), xb, yb, quad, false);
+            STBTruetype.stbtt_GetPackedQuad(currentFontInfo.chardata, 512, 512, text.charAt(i), xb, yb, quad, false);
             if (i == text.length() - 1)
                 currentWidth = quad.x1();
             xb.put(0, xb.get(0) + additionFontSpacing);
@@ -323,7 +347,7 @@ public class TrueTypeFontRenderer
 
     public float getFontHeight()
     {
-        return scale;
+        return currentFontInfo.scale;
     }
 
     public float getTranslatedX()
@@ -344,5 +368,12 @@ public class TrueTypeFontRenderer
     public float getTranslatedHeight()
     {
         return transY2;
+    }
+
+    public class ApolloFontInfo
+    {
+        int fontTextureID;
+        STBTTPackedchar.Buffer chardata;
+        float scale;
     }
 }

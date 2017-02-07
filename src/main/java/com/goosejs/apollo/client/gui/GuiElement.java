@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 public abstract class GuiElement
 {
 
+    private static final float DEFAULT_FONT_SCALE = 17.5f;
     private static final TrueTypeFontRenderer FONT_RENDERER;
     private static final String GUI_FONT_FILE = "Roboto-Regular.ttf"; // TODO: Package a font w/ Apollo
 
@@ -18,7 +19,7 @@ public abstract class GuiElement
 
     static
     {
-        FONT_RENDERER = new TrueTypeFontRenderer(GUI_FONT_FILE, 17.5f, 1f, 0, 0, 400, 600);
+        FONT_RENDERER = new TrueTypeFontRenderer(GUI_FONT_FILE, DEFAULT_FONT_SCALE, 1f, 0, 0, 400, 600);
         FONT_RENDERER.loadOrthoMatrix(0, 0, 0, 0);
     }
 
@@ -57,6 +58,26 @@ public abstract class GuiElement
         onDrawEnd();
     }
 
+    public final String getIdentifier()
+    {
+        return this.identifier;
+    }
+
+    public final void setIdentifier(String identifier)
+    {
+        this.identifier = identifier;
+    }
+
+    public final void resetFontScale()
+    {
+        getFontRenderer().setFontScale(DEFAULT_FONT_SCALE);
+    }
+
+    public final void setFontScale(float fontScale)
+    {
+        getFontRenderer().setFontScale(fontScale);
+    }
+
     public int getX()
     {
         return this.x;
@@ -77,11 +98,6 @@ public abstract class GuiElement
         return this.height;
     }
 
-    public String getIdentifier()
-    {
-        return this.identifier;
-    }
-
     public void setX(int x)
     {
         this.x = x;
@@ -100,11 +116,6 @@ public abstract class GuiElement
     public void setHeight(int height)
     {
         this.height = height;
-    }
-
-    public void setIdentifier(String identifier)
-    {
-        this.identifier = identifier;
     }
 
     public void onCreation() {}
