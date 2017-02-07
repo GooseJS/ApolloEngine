@@ -45,17 +45,21 @@ public class BrickBreakBall
         }
 
     }
-    public void checkCollisionBrick(Brick Brick)
+    public void checkCollisionBrick(Brick[] bricks)
     {
-        if ((position.x < Brick.getX() + Brick.getWidth()))
+        for(int i = 0; i < 10; i++)
         {
-            if ((position.x > Brick.getX()) && (position.y < (Brick.getY() + Brick.getHeight())))
+            if ((position.x < bricks[i].getX() + bricks[i].getWidth()))
             {
-                velocity.y = -velocity.y;
-                velocity.x += getXVelocityBrick(Brick);
-                Brick.delete();
+                if ((position.x > bricks[i].getX()) && (position.y < (bricks[i].getY() + bricks[i].getHeight())))
+                {
+                    velocity.y = -velocity.y;
+                    velocity.x += getXVelocityBrick(bricks[i]);
+                    bricks[i].delete();
+                }
             }
         }
+
 
     }
 

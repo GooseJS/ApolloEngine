@@ -74,11 +74,8 @@ public class BrickBreak extends LoopingApplicationBase
         {
             bricks[i].draw(batch);
         }
-        for(int i = 0; i < 10; i++)
-        {
-            BrickBreakBall.checkCollisionBrick(Brick);
-        }
         BrickBreakBall.update();
+        BrickBreakBall.checkCollisionBrick(bricks);
         BrickBreakBall.checkCollisionPaddle(BrickBreakPaddle);
 
 
