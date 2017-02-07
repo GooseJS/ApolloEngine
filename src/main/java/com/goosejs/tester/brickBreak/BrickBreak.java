@@ -13,8 +13,8 @@ import org.lwjgl.opengl.GL11;
 public class BrickBreak extends LoopingApplicationBase
 {
     private Window window;
-    private brickBreakPaddle BrickBreakPaddle;
-    private BrickBreakBall BrickBreakBall;
+    private BrickBreakPaddle brickBreakPaddle;
+    private BrickBreakBall brickBreakBall;
     private SpriteBatch batch;
     private Brick Brick;
     Brick[] bricks = new Brick[10];
@@ -37,8 +37,8 @@ public class BrickBreak extends LoopingApplicationBase
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
-        BrickBreakPaddle = new brickBreakPaddle(20);
-        BrickBreakBall = new BrickBreakBall(600,350,0,-5);
+        brickBreakPaddle = new BrickBreakPaddle(20);
+        brickBreakBall = new BrickBreakBall(600,350,0,-5);
         for(int i = 0; i < 10; i++)
         {
             bricks[i] = new Brick((20+(i*120)),300f, 100f, 20f);
@@ -67,22 +67,22 @@ public class BrickBreak extends LoopingApplicationBase
     private void playGame()
     {
 
-        BrickBreakPaddle.draw(batch);
-        BrickBreakBall.draw(batch);
+        brickBreakPaddle.draw(batch);
+        brickBreakBall.draw(batch);
 
         for(int i = 0; i < 10; i++)
         {
             bricks[i].draw(batch);
         }
-        BrickBreakBall.update();
-        BrickBreakBall.checkCollisionBrick(bricks);
-        BrickBreakBall.checkCollisionPaddle(BrickBreakPaddle);
+        brickBreakBall.update();
+        brickBreakBall.checkCollisionBrick(bricks);
+        brickBreakBall.checkCollisionPaddle(brickBreakPaddle);
 
 
         if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_RIGHT))
-            BrickBreakPaddle.moveRight();
+            brickBreakPaddle.moveRight();
         if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_LEFT))
-            BrickBreakPaddle.moveLeft();
+            brickBreakPaddle.moveLeft();
     }
 
 

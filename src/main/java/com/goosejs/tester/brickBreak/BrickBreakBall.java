@@ -33,14 +33,14 @@ public class BrickBreakBall
         if (position.x < 0 || position.x > 1200) velocity.x = -velocity.x;
     }
 
-    public void checkCollisionPaddle(brickBreakPaddle BrickBreakPaddle)
+    public void checkCollisionPaddle(BrickBreakPaddle brickBreakPaddle)
     {
-        if ((position.x < BrickBreakPaddle.getX() + BrickBreakPaddle.getWidth()))
+        if ((position.x < brickBreakPaddle.getX() + brickBreakPaddle.getWidth()))
         {
-            if ((position.x > BrickBreakPaddle.getX()) && (position.y < (BrickBreakPaddle.getY() + BrickBreakPaddle.getHeight())))
+            if ((position.x > brickBreakPaddle.getX()) && (position.y < (brickBreakPaddle.getY() + brickBreakPaddle.getHeight())))
             {
                 velocity.y = -velocity.y;
-                velocity.x += getXVelocityPaddle(BrickBreakPaddle);
+                velocity.x += getXVelocityPaddle(brickBreakPaddle);
             }
         }
 
@@ -73,10 +73,10 @@ public class BrickBreakBall
         else
             return -(maxXVelocity * (percentage * 2f));
     }
-    private float getXVelocityPaddle(brickBreakPaddle BrickBreakPaddle)
+    private float getXVelocityPaddle(BrickBreakPaddle brickBreakPaddle)
     {
-        float ballCenter = position.x - BrickBreakPaddle.getX() + (diameter / 2f);
-        float percentage = ballCenter / BrickBreakPaddle.getWidth();
+        float ballCenter = position.x - brickBreakPaddle.getX() + (diameter / 2f);
+        float percentage = ballCenter / brickBreakPaddle.getWidth();
 
         if (percentage > 0.5f)
             return maxXVelocity * ((percentage - 0.5f) * 2f);
