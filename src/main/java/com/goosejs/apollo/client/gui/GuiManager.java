@@ -5,6 +5,7 @@ import com.goosejs.apollo.backend.lwjgl.glfw.KeyboardCallback;
 import com.goosejs.apollo.backend.lwjgl.glfw.MouseButtonCallback;
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.client.gui.elements.GuiInputField;
+import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
 import com.goosejs.apollo.input.InputFieldContainer;
 import org.lwjgl.glfw.GLFW;
 

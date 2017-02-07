@@ -11,6 +11,11 @@ public abstract class GuiElement
     private static final TrueTypeFontRenderer FONT_RENDERER;
     private static final String GUI_FONT_FILE = "Roboto-Regular.ttf"; // TODO: Package a font w/ Apollo
 
+    public static final TrueTypeFontRenderer getFontRenderer()
+    {
+        return FONT_RENDERER;
+    }
+
     static
     {
         FONT_RENDERER = new TrueTypeFontRenderer(GUI_FONT_FILE, 17.5f, 1f, 0, 0, 400, 600);
@@ -50,11 +55,6 @@ public abstract class GuiElement
     public final void drawEnd()
     {
         onDrawEnd();
-    }
-
-    protected final TrueTypeFontRenderer getFontRenderer()
-    {
-        return this.FONT_RENDERER;
     }
 
     public int getX()

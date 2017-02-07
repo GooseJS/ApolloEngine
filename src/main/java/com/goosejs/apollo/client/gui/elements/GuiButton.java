@@ -82,7 +82,7 @@ public class GuiButton extends GuiElement
         else
             Tessellation.drawRect(1, 1, getWidth(), getHeight() - 1, backgroundR, backgroundG, backgroundB, 1.0f);
         if (outline) Tessellation.drawLineLoop(1, 1, getWidth(), getHeight() - 1, 1.0f, 1.0f, 1.0f, 1.0f);
-        getFontRenderer().drawString(((getWidth() / 2) - (getFontRenderer().getStringWidth(text.toString()) / 2)), ((getHeight() / 2) - (getFontRenderer().getFontHeight() / 2)), text.toString());
+        getFontRenderer().drawString((((float)getWidth() / 2f) - (getFontRenderer().getStringWidth(text.toString()) / 2f)), (((float)getHeight() / 2f) - (getFontRenderer().getFontHeight() / 2f)), text.toString());
     }
 
     @Override

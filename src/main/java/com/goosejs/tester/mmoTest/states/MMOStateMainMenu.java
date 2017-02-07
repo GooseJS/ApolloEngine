@@ -2,6 +2,7 @@ package com.goosejs.tester.mmoTest.states;
 
 import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.GlobalPerspectiveMatrices;
+import com.goosejs.apollo.client.gui.GuiElement;
 import com.goosejs.apollo.client.gui.GuiManager;
 import com.goosejs.apollo.client.gui.elements.GuiButton;
 import com.goosejs.apollo.state.State;
@@ -27,7 +28,7 @@ public class MMOStateMainMenu extends State
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(Window.getWindow());
 
         this.guiManager = new GuiManager(Window.getWindow());
-        guiManager.addGuiElement(new GuiButton(() -> Logger.info("FAGGOT"), 10, 10, 100, 100));
+        guiManager.addGuiElement(new GuiButton("Start Game", () -> Logger.info("FAGGOT"), 10, 10, 100, Math.round(GuiElement.getFontRenderer().getFontHeight() + 10)));
     }
 
     @Override
