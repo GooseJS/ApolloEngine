@@ -4,6 +4,7 @@ import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.font.TrueTypeFontRenderer;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
+import com.goosejs.apollo.physics.AABB2D;
 
 public class BrickBreakPaddle
 {
@@ -14,6 +15,8 @@ public class BrickBreakPaddle
 
     private static final TexturedPrimitive2D primitive = new TexturedPrimitive2D(new Texture("pong/paddle.png"), width, height);
 
+    private AABB2D aabb;
+
     private float x;
     private float y;
 
@@ -23,6 +26,7 @@ public class BrickBreakPaddle
     {
         this.x = 200;
         this.y = y;
+        aabb = new AABB2D(x, y, width, height);
     }
 
     public void draw(SpriteBatch batch)
@@ -37,6 +41,7 @@ public class BrickBreakPaddle
         else
             x = (1200 - getWidth() - padding);
 
+        aabb.setX(x);
     }
 
     public void moveLeft()
@@ -46,6 +51,7 @@ public class BrickBreakPaddle
         else
             x = padding;
 
+        aabb.setX(x);
     }
 
     public float getX()
@@ -59,4 +65,9 @@ public class BrickBreakPaddle
 
     public float getWidth() { return width; }
     public float getHeight() { return height; }
+
+    public AABB2D getAABB()
+    {
+        return aabb;
+    }
 }

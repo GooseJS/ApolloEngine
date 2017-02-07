@@ -3,6 +3,8 @@ package com.goosejs.tester.brickBreak;
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
+import com.goosejs.apollo.physics.AABB2D;
+import com.goosejs.apollo.physics.CollisionUtils;
 import org.joml.Vector2f;
 
 public class BrickBreakBall
@@ -10,6 +12,8 @@ public class BrickBreakBall
     private final float maxXVelocity = 5f;
 
     private TexturedPrimitive2D primitive;
+
+    private AABB2D aabb;
 
     private Vector2f position;
     private Vector2f velocity;
@@ -22,6 +26,8 @@ public class BrickBreakBall
         this.velocity = new Vector2f(xvel, yvel);
 
         primitive = new TexturedPrimitive2D(new Texture("pong/paddle.png"), diameter, diameter);
+
+        aabb = new AABB2D(x, y, diameter, diameter);
     }
 
     public void update()
@@ -30,37 +36,32 @@ public class BrickBreakBall
 
         if (position.y <= 0) respawn();
         if ((position.y + diameter) > 700) velocity.y = -velocity.y;
-        if (position.x < 0 || position.x > 1200) velocity.x = -velocity.x;
+        if (position.x < 0 || (position.x + diameter) > 1200) velocity.x = -velocity.x;
+
+        aabb.setX(position.x);
+        aabb.setY(position.y);
     }
 
     public void checkCollisionPaddle(BrickBreakPaddle brickBreakPaddle)
     {
-        if ((position.x < brickBreakPaddle.getX() + brickBreakPaddle.getWidth()))
+        if (CollisionUtils.testAABBAABB(getAABB(), brickBreakPaddle.getAABB()))
         {
-            if ((position.x > brickBreakPaddle.getX()) && (position.y < (brickBreakPaddle.getY() + brickBreakPaddle.getHeight())))
-            {
-                velocity.y = -velocity.y;
-                velocity.x += getXVelocityPaddle(brickBreakPaddle);
-            }
+            velocity.y = -velocity.y;
+            velocity.x += getXVelocityPaddle(brickBreakPaddle);
         }
-
     }
+
     public void checkCollisionBrick(Brick[] bricks)
     {
         for(int i = 0; i < 10; i++)
         {
-            if ((position.x < bricks[i].getX() + bricks[i].getWidth()))
+            if (CollisionUtils.testAABBAABB(getAABB(), bricks[i].getAABB()))
             {
-                if ((position.x > bricks[i].getX()) && (position.y < (bricks[i].getY() + bricks[i].getHeight())))
-                {
-                    velocity.y = -velocity.y;
-                    velocity.x += getXVelocityBrick(bricks[i]);
-                    bricks[i].delete();
-                }
+                velocity.y = -velocity.y;
+                velocity.x += getXVelocityBrick(bricks[i]);
+                bricks[i].delete();
             }
         }
-
-
     }
 
     private float getXVelocityBrick(Brick Brick)
@@ -73,6 +74,7 @@ public class BrickBreakBall
         else
             return -(maxXVelocity * (percentage * 2f));
     }
+
     private float getXVelocityPaddle(BrickBreakPaddle brickBreakPaddle)
     {
         float ballCenter = position.x - brickBreakPaddle.getX() + (diameter / 2f);
@@ -83,13 +85,16 @@ public class BrickBreakBall
         else
             return -(maxXVelocity * (percentage * 2f));
     }
+
     public void respawn()
     {
         position.x = 1200/2 + diameter;
         position.y = 700/2 + diameter;
         changeVel(0,-5);
     }
-    public void changeVel(float xvel, float yvel){
+
+    public void changeVel(float xvel, float yvel)
+    {
         velocity.x = xvel;
         velocity.y = yvel;
     }
@@ -118,6 +123,11 @@ public class BrickBreakBall
     public void draw(SpriteBatch batch)
     {
         batch.draw(primitive, position.x, position.y);
+    }
+
+    public AABB2D getAABB()
+    {
+        return aabb;
     }
 
 

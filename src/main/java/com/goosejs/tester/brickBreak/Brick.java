@@ -3,30 +3,39 @@ package com.goosejs.tester.brickBreak;
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
+import com.goosejs.apollo.physics.AABB2D;
 import org.joml.Vector2f;
 
-/**
- * Created by andrewrusso on 2/6/17.
- */
 public class Brick
 {
+    private static final AABB2D NULL_AABB = new AABB2D(0, 0, 0, 0);
+
     private TexturedPrimitive2D primitive;
     private float width;
-    private float length;
+    private float height;
 
     private Vector2f position;
-    public Brick(float x, float y, float length1, float width1)
+
+    private AABB2D aabb;
+
+    private boolean active;
+
+    public Brick(float x, float y, float width, float height)
     {
-            this.position = new Vector2f(x, y);
-            width = width1;
-            length = length1;
+        this.position = new Vector2f(x, y);
+        this.width = width;
+        this.height = height;
 
-            primitive = new TexturedPrimitive2D(new Texture("pong/paddle.png"), length1, width1);
+        active = true;
 
+        primitive = new TexturedPrimitive2D(new Texture("pong/paddle.png"), width, height);
+
+        aabb = new AABB2D(x, y, width, height);
     }
+
     public void draw(SpriteBatch batch)
     {
-        batch.draw(primitive, position.x, position.y);
+        if (active) batch.draw(primitive, position.x, position.y);
     }
 
     public float getX()
@@ -37,20 +46,22 @@ public class Brick
     {
         return position.y;
     }
-    public float getLength()
-    {
-        return length;
-    }
     public float getWidth()
     {
         return width;
     }
     public float getHeight()
     {
-        return position.y();
+        return height;
     }
     public void delete()
     {
-        System.out.print("penis");
+        active = false;
+    }
+
+    public AABB2D getAABB()
+    {
+        if (active) return aabb;
+        else return NULL_AABB;
     }
 }
