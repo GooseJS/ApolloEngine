@@ -39,7 +39,7 @@ public class Character
         velocity.y = 1f;
         while (position.y < 350)
         {
-            velocity.y += .1f;
+            velocity.y += .2f;
             position.y += velocity.y;
             draw(batch);
         }
