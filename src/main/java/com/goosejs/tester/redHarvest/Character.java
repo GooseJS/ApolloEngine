@@ -1,5 +1,6 @@
-package com.goosejs.tester.platformer;
+package com.goosejs.tester.redHarvest;
 
+import com.goosejs.apollo.backend.lwjgl.glfw.Window;
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
@@ -19,14 +20,15 @@ public class Character
     private Vector2f position;
     private Vector2f velocity;
 
-    private float gravity = 10;
+    private float gravity = 1;
     private float t_velocity = 300;
+
 
     public Character(float x, float y,float xvel, float yvel)
     {
         this.position = new Vector2f(x, y);
         this.velocity = new Vector2f(xvel,yvel);
-        primitive = new TexturedPrimitive2D(new Texture("platform/2ab.png"), width, height);
+        primitive = new TexturedPrimitive2D(new Texture("flappy/bird.png"), width, height);
         this.aabb = new AABB2D(x, y, width, height);
     }
     public void draw(SpriteBatch batch)
@@ -34,17 +36,31 @@ public class Character
         batch.draw(primitive, position.x, position.y);
     }
 
-    public void jump(SpriteBatch batch)
+    public void update()
     {
-        velocity.y = 1f;
-        while (position.y < 350)
+        if(Game.window.getKeyboardCallback().isKeyDown(32))
         {
-            velocity.y += .2f;
-            position.y += velocity.y;
-            draw(batch);
+            if (position.y <= 0)
+            {
+                velocity.y = 100;
+                position.y += velocity.y;
+            }
+
         }
+        else if (position.y > 0) fall();
+    }
+
+    public void fall ()
+    {
+        velocity.y = 10;
+        //velocity.y = velocity.y + gravity;
+        //position.y -= velocity.y;
+        //if (velocity.y == t_velocity) {velocity.y = t_velocity;}
+        position.y = position.y - velocity.y;
 
     }
+
+    public void jump(SpriteBatch batch) {}
 
     public void moveRight()
     {

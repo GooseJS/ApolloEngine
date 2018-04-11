@@ -1,4 +1,4 @@
-package com.goosejs.tester.platformer;
+package com.goosejs.tester.redHarvest;
 
 import com.goosejs.apollo.application.LoopingApplicationBase;
 import com.goosejs.apollo.application.applicationLoop.DefaultApplicationLoop;
@@ -16,8 +16,9 @@ import org.lwjgl.opengl.GL11;
 public class Game extends LoopingApplicationBase
 {
         private Character character;
-        private Window window;
+        public static Window window;
         private SpriteBatch batch;
+        private Terrain terrain;
 
 
         private TrueTypeFontRenderer fontRenderer;
@@ -32,10 +33,12 @@ public class Game extends LoopingApplicationBase
     @Override
     public boolean init()
     {
-        window = new Window(1200,700,"Platform",false,false);
+        window = new Window(1200,700,"Red Harvest",false,false);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
-        character = new Character(0,0,10,0);
+        character = new Character(0,400,10,0);
+        terrain = new Terrain(0,0,700,10);
+
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
@@ -54,6 +57,8 @@ public class Game extends LoopingApplicationBase
 
         playGame();
         character.draw(batch);
+        character.update();
+
 
         batch.flushQueue();
 
@@ -63,7 +68,7 @@ public class Game extends LoopingApplicationBase
 
     private void playGame()
     {
-        if (window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_W)) character.jump(batch);
+        if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_SPACE)) character.jump(batch);
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_D)) character.moveRight();
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_A)) character.moveLeft();
     }

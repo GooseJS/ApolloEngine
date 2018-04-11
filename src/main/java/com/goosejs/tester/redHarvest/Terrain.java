@@ -1,4 +1,4 @@
-package com.goosejs.tester.platformer;
+package com.goosejs.tester.redHarvest;
 
 import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
@@ -19,7 +19,7 @@ public class Terrain
     public Terrain(float x, float y, float length, float width)
     {
         this.position = new Vector2f(x, y);
-        primitive = new TexturedPrimitive2D(new Texture("platform/2ab.png"), length, width);
+        primitive = new TexturedPrimitive2D(new Texture("flappy/pipe.png"), length, width);
 
     }
 
