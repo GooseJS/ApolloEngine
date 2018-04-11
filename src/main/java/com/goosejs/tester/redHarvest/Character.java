@@ -6,7 +6,7 @@ import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 import com.goosejs.apollo.physics.AABB2D;
 import org.joml.Vector2f;
-
+import com.goosejs.tester.redHarvest.Game;
 
 public class Character
 {
@@ -23,6 +23,8 @@ public class Character
     private float gravity = 1;
     private float t_velocity = 300;
 
+    boolean isJumping = false;
+
 
     public Character(float x, float y,float xvel, float yvel)
     {
@@ -38,14 +40,9 @@ public class Character
 
     public void update()
     {
-        if(Game.window.getKeyboardCallback().isKeyDown(32))
+        if (isJumping)
         {
-            if (position.y <= 0)
-            {
-                velocity.y = 100;
-                position.y += velocity.y;
-            }
-
+            jump();
         }
         else if (position.y > 0) fall();
     }
@@ -60,7 +57,19 @@ public class Character
 
     }
 
-    public void jump(SpriteBatch batch) {}
+    public void jump()
+    {
+        velocity.y = 10;
+        if( position.y >= 200)
+        {
+            isJumping = false;
+        }
+        else if(position.y < 200)
+        {
+            position.y = position.y + velocity.y;
+        }
+        System.out.println(position.y);
+    }
 
     public void moveRight()
     {
@@ -81,4 +90,5 @@ public class Character
 
         aabb.setX(position.x);
     }
+    public void setisJumping () {isJumping = true;}
 }

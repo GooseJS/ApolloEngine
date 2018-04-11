@@ -36,7 +36,7 @@ public class Game extends LoopingApplicationBase
         window = new Window(1200,700,"Red Harvest",false,false);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
-        character = new Character(0,400,10,0);
+        character = new Character(0,0,10,0);
         terrain = new Terrain(0,0,700,10);
 
 
@@ -68,9 +68,14 @@ public class Game extends LoopingApplicationBase
 
     private void playGame()
     {
-        if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_SPACE)) character.jump(batch);
+        if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_SPACE)) character.setisJumping();
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_D)) character.moveRight();
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_A)) character.moveLeft();
+    }
+
+    public Window getWindow()
+    {
+        return(window);
     }
 }
 
