@@ -19,6 +19,7 @@ public class Game extends LoopingApplicationBase
         public static Window window;
         private SpriteBatch batch;
         private Terrain terrain;
+        private Enemy enemy;
 
 
         private TrueTypeFontRenderer fontRenderer;
@@ -36,6 +37,7 @@ public class Game extends LoopingApplicationBase
         window = new Window(1200,700,"Red Harvest",false,false);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
+        enemy = new Enemy(500,0,5,0);
         character = new Character(0,0,10,0);
         terrain = new Terrain(0,0,700,10);
 
@@ -43,7 +45,7 @@ public class Game extends LoopingApplicationBase
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
 
 
-        batch  = new SpriteBatch();
+        batch = new SpriteBatch();
 
         fontRenderer = new TrueTypeFontRenderer("Roboto-Regular.ttf", 50f, window);
         return true;
@@ -58,6 +60,8 @@ public class Game extends LoopingApplicationBase
         playGame();
         character.draw(batch);
         character.update();
+        enemy.draw(batch);
+        enemy.update(character);
 
 
         batch.flushQueue();
@@ -68,7 +72,13 @@ public class Game extends LoopingApplicationBase
 
     private void playGame()
     {
-        if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_SPACE)) character.setisJumping();
+        if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_SPACE))
+        {
+            if (character.getPosition().y == 0)
+            {
+                character.setisJumping();
+            }
+        }
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_D)) character.moveRight();
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_A)) character.moveLeft();
     }
@@ -77,5 +87,6 @@ public class Game extends LoopingApplicationBase
     {
         return(window);
     }
+    public Character getCharacter() {return (character);}
 }
 

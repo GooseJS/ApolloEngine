@@ -4,10 +4,14 @@ import com.goosejs.apollo.backend.lwjgl.opengl.Texture;
 import com.goosejs.apollo.client.renderer.texturedRendering.SpriteBatch;
 import com.goosejs.apollo.client.renderer.texturedRendering.TexturedPrimitive2D;
 import com.goosejs.apollo.physics.AABB2D;
-import com.sun.xml.internal.bind.v2.TODO;
 import org.joml.Vector2f;
+import com.goosejs.tester.redHarvest.*;
+import java.lang.*;
 
-public class Character
+/**
+ * Created by andrewrusso on 4/11/18.
+ */
+public class Enemy
 {
     private TexturedPrimitive2D primitive;
 
@@ -21,48 +25,46 @@ public class Character
 
     private float gravity = 1;
     private float t_velocity = 300;
+    //private Character character;
 
-    boolean isJumping = false;
 
-    public Character(float x, float y,float xvel, float yvel)
+    public Enemy(float x, float y,float xvel, float yvel)
     {
         this.position = new Vector2f(x, y);
         this.velocity = new Vector2f(xvel,yvel);
         primitive = new TexturedPrimitive2D(new Texture("flappy/bird.png"), width, height);
         this.aabb = new AABB2D(x, y, width, height);
-    }
-    public Character()
-    {
-        super();
-        this.position = new Vector2f(1,1);
-        this.velocity = new Vector2f(0,0);
-    }
+        //character = new Character();
 
+    }
     public void draw(SpriteBatch batch)
     {
         batch.draw(primitive, position.x, position.y);
     }
 
-    public void update()
+    public void update(Character character)
     {
-        if (isJumping)
+        character.setPosition(position);
+
+        //if enemy is to the right of character
+        if (position.x >= character.getPosition().x)
         {
-                jump();
+            moveLeft();
+            System.out.println("working left");
+            System.out.println(character.getPosition().x);
         }
-        else if (position.y > 0) fall();
+
+        //if enemy is to the left of character
+        else if (position.x < character.getPosition().x)
+        {
+            System.out.println("working right");
+            moveRight();
+            System.out.println(character.getPosition().x);
+        }
+
     }
 
-    public void fall ()
-    {
-        velocity.y = 10;
-        //velocity.y = velocity.y + gravity;
-        //position.y -= velocity.y;
-        //if (velocity.y == t_velocity) {velocity.y = t_velocity;}
-        position.y = position.y - velocity.y;
-
-    } // TODO: Implement collision detection
-
-    private void jump()
+    /* private void jump()
     {
         velocity.y = 20;
         if( position.y >= 200)
@@ -73,7 +75,7 @@ public class Character
         {
             position.y = position.y + velocity.y;
         }
-    }
+    } */
 
     public void moveRight()
     {
@@ -94,9 +96,4 @@ public class Character
 
         aabb.setX(position.x);
     }
-    public void setisJumping () {isJumping = true;}
-
-    public Vector2f getPosition() {return position;}
-    public Vector2f getVelocity() {return velocity;}
-    public void setPosition (Vector2f position) { position = position;}
 }
