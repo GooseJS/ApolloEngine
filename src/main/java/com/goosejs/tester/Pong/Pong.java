@@ -40,7 +40,7 @@ public class Pong extends LoopingApplicationBase
 
         leftPaddle = new Paddle(20);
         rightPaddle = new Paddle(1155);
-        ball = new Ball(600,350,-10,-10);
+        ball = new Ball(600,350,-10,0);
 
 
         batch  = new SpriteBatch();
@@ -53,10 +53,9 @@ public class Pong extends LoopingApplicationBase
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-        if (!lost)
+        if (!ball.getGameOver())
             playGame();
-        else
-            lostGame();
+
 
         batch.flushQueue();
 
@@ -82,14 +81,5 @@ public class Pong extends LoopingApplicationBase
             rightPaddle.moveDown();
     }
 
-    private void lostGame()
-    {
-        System.out.println("haha you fuckomg lost ypu umb fuck");
-        if (lost)
-            System.out.print("i wish for death");
-        else
-            System.out.println("gay ass nigga");
-
-    }
 
 }

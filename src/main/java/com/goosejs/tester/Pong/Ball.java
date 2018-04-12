@@ -13,6 +13,7 @@ public class Ball
 
     private Vector2f position;
     private Vector2f velocity;
+    private boolean gameOver;
 
     private float diameter = 15;
 
@@ -24,13 +25,29 @@ public class Ball
         primitive = new TexturedPrimitive2D(new Texture("pong/paddle.png"), diameter, diameter);
     }
 
+    public void respawn(float x,float y,float xvel,float yvel)
+    {
+        position.x = x;
+        position.y = y;
+        velocity.x = xvel;
+        velocity.y = yvel;
+    }
+
     public void update()
     {
         position.add(velocity);
 
         //check if hit wall
-        if (position.y < 0) velocity.y = -velocity.y;
-        if ((position.y + diameter) > 700) velocity.y = -velocity.y;
+
+        if (position.y < 0)
+        {
+            velocity.y = -velocity.y;
+        }
+        if ((position.y + diameter) > 700)
+        {
+
+            velocity.y = -velocity.y;
+        }
     }
 
     public void checkcollision(Paddle paddle)
@@ -41,6 +58,7 @@ public class Ball
             {
                 velocity.x = -velocity.x;
                 velocity.y = getXVelocity(paddle);
+                respawn(600,350,-10,-10);
             }
         }
 
@@ -67,4 +85,13 @@ public class Ball
         batch.draw(primitive, position.x, position.y);
     }
 
+    public boolean getGameOver()
+    {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean bool)
+    {
+        gameOver = bool;
+    }
 }

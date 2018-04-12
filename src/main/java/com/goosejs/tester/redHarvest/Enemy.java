@@ -22,10 +22,10 @@ public class Enemy
 
     private Vector2f position;
     private Vector2f velocity;
+    private Projectile projectile;
 
     private float gravity = 1;
     private float t_velocity = 300;
-    //private Character character;
 
 
     public Enemy(float x, float y,float xvel, float yvel)
@@ -34,7 +34,8 @@ public class Enemy
         this.velocity = new Vector2f(xvel,yvel);
         primitive = new TexturedPrimitive2D(new Texture("flappy/bird.png"), width, height);
         this.aabb = new AABB2D(x, y, width, height);
-        //character = new Character();
+
+
 
     }
     public void draw(SpriteBatch batch)
@@ -44,23 +45,28 @@ public class Enemy
 
     public void update(Character character)
     {
-        character.setPosition(position);
-
+        /*
         //if enemy is to the right of character
-        if (position.x >= character.getPosition().x)
+        if (position.x > character.getPosition().x)
         {
             moveLeft();
-            System.out.println("working left");
-            System.out.println(character.getPosition().x);
+            //System.out.println("working left");
+            //System.out.println(character.getPosition().x);
         }
 
         //if enemy is to the left of character
         else if (position.x < character.getPosition().x)
         {
-            System.out.println("working right");
             moveRight();
-            System.out.println(character.getPosition().x);
+            //System.out.println("working right");
+            //System.out.println(character.getPosition().x);
         }
+
+        else if(position.x == character.getPosition().x)
+        {
+            position.x = character.getPosition().x;
+        }
+        */
 
     }
 

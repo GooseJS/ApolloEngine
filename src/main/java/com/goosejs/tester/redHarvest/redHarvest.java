@@ -13,22 +13,23 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by andrewrusso on 2/7/17.
  */
-public class Game extends LoopingApplicationBase
+public class redHarvest extends LoopingApplicationBase
 {
         private Character character;
         public static Window window;
         private SpriteBatch batch;
         private Terrain terrain;
         private Enemy enemy;
+        private Projectile projectile;
 
 
         private TrueTypeFontRenderer fontRenderer;
 
     public static void main(String[] args)
     {
-        Game Game = new Game();
-        Game.setApplicationLoop(new DefaultApplicationLoop());
-        Game.setupApplicationLoop(Game);
+        redHarvest redHarvest = new redHarvest();
+        redHarvest.setApplicationLoop(new DefaultApplicationLoop());
+        redHarvest.setupApplicationLoop(redHarvest);
     }
 
     @Override
@@ -40,6 +41,7 @@ public class Game extends LoopingApplicationBase
         enemy = new Enemy(500,0,5,0);
         character = new Character(0,0,10,0);
         terrain = new Terrain(0,0,700,10);
+        projectile = new Projectile(500,45,10,0);
 
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
@@ -62,7 +64,8 @@ public class Game extends LoopingApplicationBase
         character.update();
         enemy.draw(batch);
         enemy.update(character);
-
+        projectile.draw(batch);
+        projectile.update(character);
 
         batch.flushQueue();
 

@@ -28,7 +28,7 @@ public class MMOStateMainMenu extends State
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(Window.getWindow());
 
         this.guiManager = new GuiManager(Window.getWindow());
-        GuiButton mainMenuButton = new GuiButton("Start Game", () -> Logger.info("MainMenu"), (int)(((float)Window.getWindow().getWidth() / 2f) - (500f / 2f)), 200, 500, 60);
+        GuiButton mainMenuButton = new GuiButton("Start redHarvest", () -> Logger.info("MainMenu"), (int)(((float)Window.getWindow().getWidth() / 2f) - (500f / 2f)), 200, 500, 60);
         mainMenuButton.setFontScale(30f);
         mainMenuButton.setBackgroundColor(0.4f, 0.4f, 0.4f);
         mainMenuButton.setHoverColor(0.6f, 0.6f, 0.6f);
