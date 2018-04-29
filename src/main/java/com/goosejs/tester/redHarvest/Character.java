@@ -11,8 +11,8 @@ public class Character
 {
     private TexturedPrimitive2D primitive;
 
-    private float width = 90;
-    private float height = 90;
+    private float width = 118;
+    private float height = 150;
 
     private AABB2D aabb;
 
@@ -23,12 +23,13 @@ public class Character
     private float t_velocity = 300;
 
     boolean isJumping = false;
+    boolean onTop = false;
 
     public Character(float x, float y,float xvel, float yvel)
     {
         this.position = new Vector2f(x, y);
         this.velocity = new Vector2f(xvel,yvel);
-        primitive = new TexturedPrimitive2D(new Texture("flappy/bird.png"), width, height);
+        primitive = new TexturedPrimitive2D(new Texture("redHarvest/detective.png"), width, height);
         this.aabb = new AABB2D(x, y, width, height);
     }
     public Character()
@@ -43,37 +44,62 @@ public class Character
         batch.draw(primitive, position.x, position.y);
     }
 
-    public void update()
+    public void update(Enemy enemy)
     {
         if (isJumping)
         {
-                jump();
-        }
-        else if (position.y > 0) fall();
+            jump();
+        } else if (position.y > 0) fall(enemy);
     }
 
-    public void fall ()
+
+    public void fall (Enemy enemy)
     {
-        velocity.y = 10;
-        //velocity.y = velocity.y + gravity;
-        //position.y -= velocity.y;
-        //if (velocity.y == t_velocity) {velocity.y = t_velocity;}
-        position.y = position.y - velocity.y;
+        if((position.x > enemy.getPosition().x - enemy.getWidth() && position.x < enemy.getPosition().x + enemy.getWidth()) && position.y == enemy.getPosition().y + enemy.getHeight())
+        {
+            position.y = position.y;
+            onTop = true;
+            redHarvest.setIsWin(true);
+        }
+        else
+        {
+            velocity.y = 10;
+            position.y = position.y - velocity.y;
+            onTop = false;
+        }
 
     } // TODO: Implement collision detection
 
     private void jump()
     {
-        velocity.y = 20;
-        if( position.y >= 200)
+        if (onTop)
         {
-            isJumping = false;
+            velocity.y = 20;
+            if( position.y >= 290)
+            {
+                isJumping = false;
+            }
+            else if(position.y < + 290)
+            {
+                position.y = position.y + velocity.y;
+            }
         }
-        else if(position.y < 200)
+
+        else if(!onTop)
         {
-            position.y = position.y + velocity.y;
+            velocity.y = 20;
+            if( position.y >= 200)
+            {
+                isJumping = false;
+            }
+            else if(position.y < + 200)
+            {
+                position.y = position.y + velocity.y;
+            }
         }
+
     }
+
 
     public void moveRight()
     {
@@ -94,9 +120,12 @@ public class Character
 
         aabb.setX(position.x);
     }
-    public void setisJumping () {isJumping = true;}
+
+    public void setisJumping (boolean bool) {isJumping = bool;}
 
     public Vector2f getPosition() {return position;}
     public Vector2f getVelocity() {return velocity;}
-    public void setPosition (Vector2f position) { position = position;}
+    public void setPosition (Vector2f position) {position = position;}
+    public float getWidth() {return width;}
+    public float getHeight() {return height;}
 }

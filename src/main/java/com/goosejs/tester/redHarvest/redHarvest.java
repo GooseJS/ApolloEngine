@@ -21,6 +21,10 @@ public class redHarvest extends LoopingApplicationBase
         private Terrain terrain;
         private Enemy enemy;
         private Projectile projectile;
+        private static boolean isGameOver;
+        private static boolean isWin;
+        private static ImageDisplay gameOver;
+        private static ImageDisplay win;
 
 
         private TrueTypeFontRenderer fontRenderer;
@@ -38,10 +42,15 @@ public class redHarvest extends LoopingApplicationBase
         window = new Window(1200,700,"Red Harvest",false,false);
         window.createWindow();
         window.setKeyboardCallback(new ExtendableKeyboardCallback());
-        enemy = new Enemy(500,0,5,0);
-        character = new Character(0,0,10,0);
+        enemy = new Enemy(1000,0,2,0);
+        character = new Character(0,0,10,5);
         terrain = new Terrain(0,0,700,10);
-        projectile = new Projectile(500,45,10,0);
+        projectile = new Projectile(enemy.getPosition().x, enemy.getWidth() / 2,5,0);
+        enemy.makeTarget();
+        gameOver = new ImageDisplay(870,630,280,35,"redHarvest/gameover.png");
+        win = new ImageDisplay(870,630,280,35,"redHarvest/win.png");
+        isGameOver = false;
+        isWin = false;
 
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
@@ -60,12 +69,24 @@ public class redHarvest extends LoopingApplicationBase
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         playGame();
-        character.draw(batch);
-        character.update();
-        enemy.draw(batch);
-        enemy.update(character);
-        projectile.draw(batch);
-        projectile.update(character);
+        if(!isGameOver && !isWin)
+        {
+            character.draw(batch);
+            character.update(enemy);
+            enemy.draw(batch);
+            enemy.update(character);
+            projectile.draw(batch);
+            projectile.update(character, enemy);
+        }
+        else if(isGameOver)
+        {
+            gameOver.draw(batch);
+        }
+        else if (isWin)
+        {
+            win.draw(batch);
+        }
+
 
         batch.flushQueue();
 
@@ -77,13 +98,21 @@ public class redHarvest extends LoopingApplicationBase
     {
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_SPACE))
         {
-            if (character.getPosition().y == 0)
+            if (character.getPosition().y == 0 || character.getPosition().y == 90)
             {
-                character.setisJumping();
+                character.setisJumping(true);
             }
         }
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_D)) character.moveRight();
         if(window.getKeyboardCallback().isKeyDown(GLFW.GLFW_KEY_A)) character.moveLeft();
+    }
+    public static void setisGameOver(boolean bool)
+    {
+        isGameOver = bool;
+    }
+    public static void setIsWin(boolean bool)
+    {
+        isWin = bool;
     }
 
     public Window getWindow()

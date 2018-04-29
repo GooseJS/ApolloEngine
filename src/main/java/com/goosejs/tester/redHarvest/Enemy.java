@@ -7,6 +7,8 @@ import com.goosejs.apollo.physics.AABB2D;
 import org.joml.Vector2f;
 import com.goosejs.tester.redHarvest.*;
 import java.lang.*;
+import java.math.*;
+import java.util.Random;
 
 /**
  * Created by andrewrusso on 4/11/18.
@@ -15,8 +17,8 @@ public class Enemy
 {
     private TexturedPrimitive2D primitive;
 
-    private float width = 90;
-    private float height = 90;
+    private float width = 130;
+    private float height = 150;
 
     private AABB2D aabb;
 
@@ -27,16 +29,25 @@ public class Enemy
     private float gravity = 1;
     private float t_velocity = 300;
 
+    private Random random;
+
+    int blah;
+    int targetX;
 
     public Enemy(float x, float y,float xvel, float yvel)
     {
         this.position = new Vector2f(x, y);
         this.velocity = new Vector2f(xvel,yvel);
-        primitive = new TexturedPrimitive2D(new Texture("flappy/bird.png"), width, height);
+        primitive = new TexturedPrimitive2D(new Texture("redHarvest/Joker.png"), width, height);
         this.aabb = new AABB2D(x, y, width, height);
+        random = new Random();
+    }
 
-
-
+    public void makeTarget()
+    {
+        blah = random.nextInt(200) - 100;
+        targetX = (int) (position.x + blah);
+        System.out.println(targetX);
     }
     public void draw(SpriteBatch batch)
     {
@@ -45,61 +56,40 @@ public class Enemy
 
     public void update(Character character)
     {
-        /*
-        //if enemy is to the right of character
-        if (position.x > character.getPosition().x)
-        {
-            moveLeft();
-            //System.out.println("working left");
-            //System.out.println(character.getPosition().x);
-        }
-
-        //if enemy is to the left of character
-        else if (position.x < character.getPosition().x)
-        {
+        System.out.println(position.x());
+        System.out.println(position.y());
+        System.out.println(width);
+        System.out.println(height);
+        /*if(targetX > position.x)
             moveRight();
-            //System.out.println("working right");
-            //System.out.println(character.getPosition().x);
-        }
-
-        else if(position.x == character.getPosition().x)
-        {
-            position.x = character.getPosition().x;
-        }
-        */
-
+        else if(targetX < position.x)
+            moveLeft();*/
     }
-
-    /* private void jump()
-    {
-        velocity.y = 20;
-        if( position.y >= 200)
-        {
-            isJumping = false;
-        }
-        else if(position.y < 200)
-        {
-            position.y = position.y + velocity.y;
-        }
-    } */
 
     public void moveRight()
     {
         if(position.x < (1200 - width))
             position.x += velocity.x;
-        else
+        else if(position.x == (1200 - width) || position.x > targetX)
+        {
             position.x = (1200 - width);
-
-        aabb.setX(position.x);
+            makeTarget();
+        }
     }
 
     public void moveLeft()
     {
         if(position.x > 0)
             position.x -= velocity.x;
-        else
-            position.x = 0;
-
-        aabb.setX(position.x);
+        else if(position.x == 0 || position.x < targetX)
+        {
+            position.x = (0);
+            makeTarget();
+        }
     }
+    public Vector2f getPosition() {return position;}
+    public Vector2f getVelocity() {return velocity;}
+    public void setPosition (Vector2f position) { position = position;}
+    public float getWidth() {return width;}
+    public float getHeight() {return height;}
 }
