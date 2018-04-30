@@ -15,7 +15,7 @@ public class ImageDisplay
     public ImageDisplay(int width, int height, int x, int y, String fileName)
     {
         primitive = new TexturedPrimitive2D(new Texture(fileName), width, height);
-        this.position = new Vector2f(x, y);
+        position = new Vector2f(x, y);
     }
     public static void draw(SpriteBatch batch)
     {

@@ -23,8 +23,8 @@ public class redHarvest extends LoopingApplicationBase
         private Projectile projectile;
         private static boolean isGameOver;
         private static boolean isWin;
-        private static ImageDisplay gameOver;
-        private static ImageDisplay win;
+        private static ImageDisplay image;
+        private static ImageDisplay2 image2;
 
 
         private TrueTypeFontRenderer fontRenderer;
@@ -47,10 +47,10 @@ public class redHarvest extends LoopingApplicationBase
         terrain = new Terrain(0,0,700,10);
         projectile = new Projectile(enemy.getPosition().x, enemy.getWidth() / 2,5,0);
         enemy.makeTarget();
-        gameOver = new ImageDisplay(870,630,280,35,"redHarvest/gameover.png");
-        win = new ImageDisplay(870,630,280,35,"redHarvest/win.png");
-        isGameOver = false;
-        isWin = false;
+        image = new ImageDisplay(870,630,200,35,"redHarvest/gameover.png");
+        image2 = new ImageDisplay2(870,630,200,35,"redHarvest/win.png");
+        isGameOver = true;
+        isWin = true;
 
 
         GlobalPerspectiveMatrices.update2DPerspectiveMatrix(window);
@@ -69,7 +69,7 @@ public class redHarvest extends LoopingApplicationBase
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         playGame();
-        if(!isGameOver && !isWin)
+        if(isGameOver && isWin)
         {
             character.draw(batch);
             character.update(enemy);
@@ -78,13 +78,13 @@ public class redHarvest extends LoopingApplicationBase
             projectile.draw(batch);
             projectile.update(character, enemy);
         }
-        else if(isGameOver)
+        else if(!isGameOver)
         {
-            gameOver.draw(batch);
+            image.draw(batch);
         }
-        else if (isWin)
+        else if(!isWin)
         {
-            win.draw(batch);
+            image2.draw(batch);
         }
 
 
@@ -92,6 +92,10 @@ public class redHarvest extends LoopingApplicationBase
 
         if (!window.update())
             getApplicationLoop().stopLoop();
+        System.out.println("game over:");
+        System.out.println( isGameOver);
+        System.out.println("image2:");
+        System.out.println(isWin);
     }
 
     private void playGame()

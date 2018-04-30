@@ -59,7 +59,7 @@ public class Character
         {
             position.y = position.y;
             onTop = true;
-            redHarvest.setIsWin(true);
+            redHarvest.setIsWin(false);
         }
         else
         {

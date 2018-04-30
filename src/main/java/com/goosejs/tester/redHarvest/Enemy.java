@@ -56,14 +56,6 @@ public class Enemy
 
     public void update(Character character)
     {
-        System.out.println(position.x());
-        System.out.println(position.y());
-        System.out.println(width);
-        System.out.println(height);
-        /*if(targetX > position.x)
-            moveRight();
-        else if(targetX < position.x)
-            moveLeft();*/
     }
 
     public void moveRight()

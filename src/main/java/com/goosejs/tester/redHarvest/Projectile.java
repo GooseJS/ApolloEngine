@@ -33,11 +33,12 @@ public class Projectile
     public void update(Character character, Enemy enemy)
     {
 
-        if (((character.getPosition().x + character.getWidth() == position.x || character.getPosition().x == position.x || (character.getPosition().x + character.getWidth() == position.x - velocity.x || character.getPosition().x + character.getWidth() == position.x + velocity.x) &&  character.getPosition().y + character.getHeight() / 2 == position.y) || (position.x == 0)))
+        if (((character.getPosition().x + character.getWidth() == position.x || character.getPosition().x == position.x || (character.getPosition().x + character.getWidth() == position.x - velocity.x || character.getPosition().x + character.getWidth() == position.x + velocity.x) &&  character.getPosition().y + character.getHeight() / 2 == position.y)))
         {
             redHarvest.setisGameOver(false);
-            //position.x = enemy.getPosition().x;
+            position.x = enemy.getPosition().x;
         }
+        else if(position.x == 0) position.x = enemy.getPosition().x;
         else   if (position.x > character.getPosition().x + character.getWidth()) position.x -= velocity.x;
         else { position.x = position.x - velocity.x; }
     }
